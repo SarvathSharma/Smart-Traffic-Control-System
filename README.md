@@ -14,6 +14,4 @@ We are on the verge of creating a Smart Traffic Control System. By using Image P
 
 
 # Video Format
-Used this site below in order to  convert .mp4 traffic video footage into Motion JPEG files in order to analyze footage fram by frame using Matlab VideoReader.
-
-https://anyconv.com/mp4-to-mjpeg-converter/
+We will be using .mp4 file formats.
