@@ -8,8 +8,8 @@ for k = 1 : nframes
     singleFrame = readFrame(trafficVid);
     % Convert to grayscale to do morphological processing.
     I = imageEnhancement(singleFrame);
+    I = vehicleDetection(I, singleFrame); % Blob analysis
     imshow(I);
-    I = vehicleDetection(I); % Blob analysis
 end
 
 
@@ -27,6 +27,10 @@ function img = imageEnhancement(input)
 end
 
 
-function img = vehicleDetection(input)
-    img = input;
+function img = vehicleDetection(input, frame)
+    blobAnalysis = vision.BlobAnalysis('BoundingBoxOutputPort', true, ...
+        'AreaOutputPort', false, 'CentroidOutputPort', false, ...
+        'MinimumBlobArea', 250);
+    bbox = step(blobAnalysis, input);
+    img = insertShape(frame, 'Rectangle', bbox, 'Color', 'green');
 end
