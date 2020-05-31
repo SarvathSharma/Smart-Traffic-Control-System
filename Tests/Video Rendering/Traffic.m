@@ -16,9 +16,9 @@ function img = imageEnhancement(input)
     binaryImage = imbinarize(img, ...
         'adaptive','ForegroundPolarity','dark', 'Sensitivity', 0.4);
     binaryImage = ~binaryImage;
-    binaryImage = bwareaopen(binaryImage, 100);
-    sedisk = strel('disk', 2);
-    binaryImage = imclose(binaryImage, sedisk);
+    binaryImage = bwareaopen(binaryImage, 150);
+    sedisk = strel('disk', 3);
+    binaryImage = imopen(binaryImage, sedisk);
     binaryImage = imfill(binaryImage, 'holes');
     binaryImage = imclearborder(binaryImage);
     imshow(binaryImage);
