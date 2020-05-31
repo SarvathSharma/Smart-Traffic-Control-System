@@ -8,6 +8,8 @@ for k = 1 : nframes
     singleFrame = readFrame(trafficVid);
     % Convert to grayscale to do morphological processing.
     I = imageEnhancement(singleFrame);
+    imshow(I);
+    I = vehicleDetection(I); % Blob analysis
 end
 
 
@@ -16,10 +18,15 @@ function img = imageEnhancement(input)
     binaryImage = imbinarize(img, ...
         'adaptive','ForegroundPolarity','dark', 'Sensitivity', 0.4);
     binaryImage = ~binaryImage;
-    binaryImage = bwareaopen(binaryImage, 150);
-    sedisk = strel('disk', 3);
-    binaryImage = imopen(binaryImage, sedisk);
+    binaryImage = bwareaopen(binaryImage, 150); % Removes small objects
+    sedisk = strel('disk', 2);  
+    binaryImage = imopen(binaryImage, sedisk); % Removes noise
     binaryImage = imfill(binaryImage, 'holes');
     binaryImage = imclearborder(binaryImage);
-    imshow(binaryImage);
+    img = binaryImage;
+end
+
+
+function img = vehicleDetection(input)
+    img = input;
 end
