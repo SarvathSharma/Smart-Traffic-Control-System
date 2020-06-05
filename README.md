@@ -8,6 +8,8 @@ We are on the verge of creating a Smart Traffic Control System. By using Image P
 # Process:
 1. Grab videos of traffic intersections
 2. Analyze the density and patterns of the environment using Matlab
+    1. Need to clean image and isoalte vehicles on the road
+    2. Once cleaned, use Blob Analysis to detect and track vehicles 
 3. Write said data into a file and store it for reference
 4. Using Python (TBD) analyze the video and output final parameters
 5. Output will be in a GUI or just another data file (TBD)
