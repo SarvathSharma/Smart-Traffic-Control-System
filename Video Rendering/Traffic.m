@@ -10,10 +10,10 @@ foregroundDetector = vision.ForegroundDetector('NumGaussians', 3, ...
 
 % make temp directory to store video, not sure if this is saved after running, 
 % if you can't find the folder I can try saving it somewhere solid after the video is made
-vidDir = videoOutput;
-mkdir(vidDir)
+% vidDir = videoOutput;
+% mkdir(vidDir)
 % make sub folder for video frames
-mkdir(vidDir,'images')
+%mkdir(vidDir,'images')
 
 for k = 1 : nframes
     %Read frame
@@ -25,9 +25,9 @@ for k = 1 : nframes
     % Convert to grayscale to do morphological processing
     newImgs = imageEnhancement(foreground);
     
-    %need to name images from img001.jpg to imgN.jpg
-    filename = [sprintf('03%',k) '.jpg'];
-    fullname = fullfile(vidDir.'images',filename);
+    % name images from img001.jpg to imgN.jpg
+    % filename = [sprintf('03%',k) '.jpg'];
+    % fullname = fullfile(vidDir.'images',filename);
 
     % We will display data after the model has trained
     if k > foregroundDetector.NumTrainingFrames
@@ -37,25 +37,25 @@ for k = 1 : nframes
         imshow(detectedVehicles);
 
         % name and write the file properly
-        img = detectedVehicles;
-        imwrite(img,fullname);
+        % img = detectedVehicles;
+        % imwrite(img,fullname);
     else
         text(10,10,'\color{green}Calibrating...')
         imshow(singleFrame)
 
         % name and write the file properly
-        img = singleFrame;
-        imwrite(img,fullname)
+        % img = singleFrame;
+        % imwrite(img,fullname)
     end
 end
 
 % get all images written
-imageNames = dir(fullfile(vidDir,'images','*.jpg'));
-imageNames = {imageNames.name}';
+% imageNames = dir(fullfile(vidDir,'images','*.jpg'));
+% imageNames = {imageNames.name}';
 
 % convert to video
-outputVideo = VideoWriter(fullfile(vidDir, 'traffic_out.mp4'));
-outputVideo.FrameRate = trafficVid.FrameRate;
+% outputVideo = VideoWriter(fullfile(vidDir, 'traffic_out.mp4'));
+% outputVideo.FrameRate = trafficVid.FrameRate;
 
 function img = imageEnhancement(input)
     
