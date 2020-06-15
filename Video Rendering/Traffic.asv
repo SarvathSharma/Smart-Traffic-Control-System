@@ -9,7 +9,6 @@ foregroundDetector = vision.ForegroundDetector('NumGaussians', 3, ...
     'NumTrainingFrames', 150);
 
 % Call to calibrating function
-calibrating(trafficVid, foregroundDetector.NumTrainingFrames, foregroundDetector);
 
 % make temp directory to store video, not sure if this is saved after running, 
 % if you can't find the folder I can try saving it somewhere solid after the video is made
@@ -18,7 +17,7 @@ calibrating(trafficVid, foregroundDetector.NumTrainingFrames, foregroundDetector
 % make sub folder for video frames
 %mkdir(vidDir,'images')
 
-for k = foregroundDetector.NumTrainingFrames : nframes
+for k = 1 : nframes
     
     %Read frame
     singleFrame = readFrame(trafficVid);
@@ -33,13 +32,24 @@ for k = foregroundDetector.NumTrainingFrames : nframes
     % filename = [sprintf('03%',k) '.jpg'];
     % fullname = fullfile(vidDir.'images',filename);
 
+    % We will display data after the model has trained
+    %if k > foregroundDetector.NumTrainingFrames
+        % Blob analysis
+        %title('Detecting Vehicles')
     detectedVehicles = vehicleDetection(newImgs, singleFrame);
     imshow(detectedVehicles);
 
-    % name and write the file properly
-    % img = detectedVehicles;
-    % imwrite(img,fullname);
-    
+        % name and write the file properly
+        % img = detectedVehicles;
+        % imwrite(img,fullname);
+    %else
+      %  text(10,10,'\color{green}Calibrating...')
+       % imshow(singleFrame)
+
+        % name and write the file properly
+        % img = singleFrame;
+        % imwrite(img,fullname)
+   % end
 end
 
 % get all images written
@@ -50,26 +60,9 @@ end
 % outputVideo = VideoWriter(fullfile(vidDir, 'traffic_out.mp4'));
 % outputVideo.FrameRate = trafficVid.FrameRate;
 
-function calibrating(video, trnframes, model)
-  
-    for i=1 : trnframes
-        
-        % Read Frame
-        singleFrame = readFrame(video);
-        
-        % Train model
-        step(model, singleFrame);
-        
-        %Insert Text
-        position = [10,10];
-        box_color = 'black';
-        newIMG = insertText(singleFrame,position,'Calibrating...','FontSize',18,'BoxColor',...
-        box_color,'TextColor','white');
-        
-        %Output video with calibrating text in top left corner
-        imshow(newIMG);
-        
-    end
+function result = calibrating()
+    
+    for i=1 :
 
 
 end
@@ -108,8 +101,8 @@ function result = vehicleDetection(input, frame)
         'MinimumBlobArea', 250, 'ExcludeBorderBlobs', true);
     bbox = step(blobAnalysis, input);
     result = insertShape(frame, 'Rectangle', bbox, 'Color', 'green');
-    numberOfVehicles = size(bbox, 1);
-    result = insertText(result, [10 10], numberOfVehicles,...
-                'BoxOpacity', 1, 'FontSize', 15);
+    %numberOfVehicles = size(bbox, 1);
+    %result = insertText(numberOfVehicles, [15 15], numberOfVehicles,...
+     %           'BoxOpacity', 1, 'FontSize', 15);
 end
 
