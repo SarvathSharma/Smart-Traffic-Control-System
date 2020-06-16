@@ -18,7 +18,10 @@ calibrating(trafficVid, foregroundDetector.NumTrainingFrames, foregroundDetector
 % make sub folder for video frames
 %mkdir(vidDir,'images')
 
-for k = foregroundDetector.NumTrainingFrames : nframes
+%Reset Video
+trafficVid = VideoReader('TrafficTest2.mp4');
+
+for k = 1 : nframes
     
     %Read frame
     singleFrame = readFrame(trafficVid);
