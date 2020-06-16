@@ -9,7 +9,8 @@ foregroundDetector = vision.ForegroundDetector('NumGaussians', 3, ...
     'NumTrainingFrames', 150);
 
 % Call to calibrating function
-calibrating(trafficVid, foregroundDetector.NumTrainingFrames, foregroundDetector);
+calibrating(trafficVid, foregroundDetector.NumTrainingFrames,...
+    foregroundDetector);
 
 % make temp directory to store video, not sure if this is saved after running, 
 % if you can't find the folder I can try saving it somewhere solid after the video is made
@@ -25,11 +26,17 @@ trafficVid = VideoReader('TrafficTest2.mp4');
 old_frame = 0;
 total_cars = 0;
 
-
 for k = 1 : nframes
     
-    %Read frame
+    % Read frame and get data
+    % Using the size of the image screen, display a border line on the
+    % center of the image
     singleFrame = readFrame(trafficVid);
+    [y, x, z] = size(singleFrame);
+    grid on
+    x1 = x/4; y1 = y/4; x2 = (3*x)/4; y2 = (3*y)/4;
+    singleFrame = insertShape(singleFrame, 'Line', [x1 y1 x2 y2], ...
+        'LineWidth', 2, 'Color', 'black');
     
     % Inital image filtering
     foreground = step(foregroundDetector, singleFrame);
@@ -39,15 +46,14 @@ for k = 1 : nframes
     
     % Detect car using blob analysis and displays new image, returns new
     % total number of cars data in an array
-    new_data = vehicleDetection(newImgs, singleFrame, total_cars, old_frame);
+    new_data = vehicleDetection(newImgs, singleFrame, total_cars, ...
+        old_frame);
     
     %Updating data
     total_cars = new_data(1);
     old_frame = new_data(2);
     
-    
-    
-    
+
     % name images from img001.jpg to imgN.jpg
     % filename = [sprintf('03%',k) '.jpg'];
     % fullname = fullfile(vidDir.'images',filename);
@@ -79,15 +85,13 @@ function calibrating(video, trnframes, model)
         %Insert Text
         position = [10,10];
         box_color = 'black';
-        newIMG = insertText(singleFrame,position,'Calibrating...','FontSize',18,'BoxColor',...
-        box_color,'TextColor','white');
+        newIMG = insertText(singleFrame,position,'Calibrating...',...
+            'FontSize',18,'BoxColor', box_color,'TextColor','white');
         
         %Output video with calibrating text in top left corner
         imshow(newIMG);
         
     end
-
-
 end
 
 function img = imageEnhancement(input)
@@ -101,7 +105,6 @@ function img = imageEnhancement(input)
     %    'adaptive', 'ForegroundPolarity', 'dark', 'Sensitivity', 0.52);
     %binaryImage = ~binaryImage;
     %binaryImage = bwareaopen(binaryImage, 175); % Removes small objects
-    
     
     % After initial filtering remove noise
     se1 = strel('disk', 1);
@@ -145,4 +148,3 @@ function new_data = vehicleDetection(input, frame, oldTotal, oldFrameNumCars)
     imshow(result);
     
 end
-
