@@ -19,14 +19,11 @@ calibrating(trafficVid, foregroundDetector.NumTrainingFrames,...
 % make sub folder for video frames
 %mkdir(vidDir,'images')
 
-%Reset Video
-trafficVid = VideoReader('TrafficTest2.mp4');
-
 %Stack Implementation to count cars
 old_frame = 0;
 total_cars = 0;
 
-for k = 1 : nframes
+for k = foregroundDetector.NumTrainingFrames : nframes
     
     % Read frame and get data
     % Using the size of the image screen, display a border line on the
