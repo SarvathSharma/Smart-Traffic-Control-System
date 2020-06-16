@@ -21,6 +21,11 @@ calibrating(trafficVid, foregroundDetector.NumTrainingFrames, foregroundDetector
 %Reset Video
 trafficVid = VideoReader('TrafficTest2.mp4');
 
+%Stack Implementation to count cars
+old_frame = 0;
+total_cars = 0;
+
+
 for k = 1 : nframes
     
     %Read frame
@@ -32,12 +37,20 @@ for k = 1 : nframes
     % Convert to grayscale to do morphological processing
     newImgs = imageEnhancement(foreground);
     
+    % Detect car using blob analysis and displays new image, returns new
+    % total number of cars data in an array
+    new_data = vehicleDetection(newImgs, singleFrame, total_cars, old_frame);
+    
+    %Updating data
+    total_cars = new_data(1);
+    old_frame = new_data(2);
+    
+    
+    
+    
     % name images from img001.jpg to imgN.jpg
     % filename = [sprintf('03%',k) '.jpg'];
     % fullname = fullfile(vidDir.'images',filename);
-
-    detectedVehicles = vehicleDetection(newImgs, singleFrame);
-    imshow(detectedVehicles);
 
     % name and write the file properly
     % img = detectedVehicles;
@@ -100,9 +113,10 @@ function img = imageEnhancement(input)
     se3 = strel('square', 20);
     finalImg = imdilate(clearBorders, se3);
     img = finalImg;
+    
 end
 
-function result = vehicleDetection(input, frame)   
+function new_data = vehicleDetection(input, frame, oldTotal, oldFrameNumCars)   
 
     % Performs blob analysis in order to create a green box around cars
     % Then count the number of boxes which should be the cars
@@ -111,8 +125,24 @@ function result = vehicleDetection(input, frame)
         'MinimumBlobArea', 250, 'ExcludeBorderBlobs', true);
     bbox = step(blobAnalysis, input);
     result = insertShape(frame, 'Rectangle', bbox, 'Color', 'green');
-    numberOfVehicles = size(bbox, 1);
-    result = insertText(result, [10 10], numberOfVehicles,...
+    currFrameNumCars = size(bbox, 1);
+    
+    %Updating total_number of cars count
+    if currFrameNumCars >= oldFrameNumCars
+        
+        new_data(1) = oldTotal + (currFrameNumCars - oldFrameNumCars);
+        new_data(2) = currFrameNumCars;
+        
+    else
+        
+        new_data(1) = oldTotal;
+        new_data(2) = currFrameNumCars;
+        
+    end
+   
+    result = insertText(result, [10 10], new_data(1),...
                 'BoxOpacity', 1, 'FontSize', 15);
+    imshow(result);
+    
 end
 
