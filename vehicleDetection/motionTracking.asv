@@ -4,10 +4,10 @@
 clc;	% Clear command window.
 clear;	% Delete all variables.
 
-
-videoObject = setupEnvironment();   % Create new object to analyze
-
-trackStruct = initializeTracks();   % Creates an empty array of structs with properties to track
+% Create new object to analyze
+videoObject = setupEnvironment();
+% Creates an empty array of structs with properties to track
+trackStruct = initializeTracks();
 
 nextId = 1; % ID of the next track
 
@@ -18,8 +18,12 @@ while hasFrame(videoObject.videoReader)
    % Performs image filtering and blob analysis, then stores the centroids,
    % bboxes and the filtered Image
    [centroids, bboxes, filteredImage] = detectObjects(singleFrame);
-    
-    
+   % Predicts the new location of deteced objects
+   predictLocation();
+   % This function decides whether or not to use the predicted location
+   % based on confidence of detection and minimized cost
+   [assignments, unassignedTracks, unassignedDetections] = ... 
+       detectionToTrackAssignment();
     
 end
 
@@ -93,9 +97,28 @@ function predictLocation()
        predictNextPoint = predict(trackStruct(vehicle).kalmanFilter);
        
        % Update the bounday box so that it follows the centroid
-       predictNextPoint = int32
-        
+       predictNextPoint = int32(predictNextPoint) - boundaryBox(3:4)/2;
+       trackStruct(vehicles).bbox = [predictNextPoint, boundaryBox(3:4)];
     end
+end
 
+% This function decides whether or not to use the predicted location
+% based on confidence of detection and minimized cost
+function [assignment, unassignedTracks, unassignedDetections] = ... 
+    detectionToTrackAssignment()
+    
+    totalTracks = length(trackStruct); % This is what we currently track
+    totalDetections = size(centroids, 1);  % What can be added to track
+    
+    % Compute the cost of assigning each detection to each track.
+    cost = zeros(totalTracks, totalDetections);
+    for singleTrack = 1:totalDetections
+        cost(singleTrack, :) = distance(trackStruct(singleTrack).kalmanFilter, centroids);
+    end
+    
+    % Solve the assignment problem.
+    costOfNonAssignment = 20; % This number is experimental
+    [assignments, unassignedTracks, unassignedDetections] = ...
+        assignDetectionsToTracks(cost, costOfNonAssignment);
 end
 

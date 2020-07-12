@@ -18,8 +18,12 @@ while hasFrame(videoObject.videoReader)
    % Performs image filtering and blob analysis, then stores the centroids,
    % bboxes and the filtered Image
    [centroids, bboxes, filteredImage] = detectObjects(singleFrame);
-    
-    
+   % Predicts the new location of deteced objects
+   predictLocation();
+   % This function decides whether or not to use the predicted location
+   % based on confidence of detection and minimized cost
+   [assignments, unassignedTracks, unassignedDetections] = ... 
+       detectionToTrackAssignment();
     
 end
 
@@ -97,3 +101,24 @@ function predictLocation()
        trackStruct(vehicles).bbox = [predictNextPoint, boundaryBox(3:4)];
     end
 end
+
+% This function decides whether or not to use the predicted location
+% based on confidence of detection and minimized cost
+function [assignments, unassignedTracks, unassignedDetections] = ... 
+    detectionToTrackAssignment()
+    
+    totalTracks = length(trackStruct); % This is what we currently track
+    totalDetections = size(centroids, 1);  % What can be added to track
+    
+    % Compute the cost of assigning each detection to each track.
+    cost = zeros(totalTracks, totalDetections);
+    for singleTrack = 1:totalDetections
+        cost(singleTrack, :) = distance(trackStruct(singleTrack).kalmanFilter, centroids);
+    end
+    
+    % Solve the assignment problem using built in function.
+    costOfNonAssignment = 20; % This number is experimental
+    [assignments, unassignedTracks, unassignedDetections] = ...
+        assignDetectionsToTracks(cost, costOfNonAssignment);
+end
+
