@@ -24,7 +24,8 @@ while hasFrame(videoObject.videoReader)
    % based on confidence of detection and minimized cost
    [assignments, unassignedTracks, unassignedDetections] = ... 
        detectionToTrackAssignment();
-    
+   
+   updateAssignedTracks();
 end
 
 
@@ -120,5 +121,38 @@ function [assignments, unassignedTracks, unassignedDetections] = ...
     costOfNonAssignment = 20; % This number is experimental
     [assignments, unassignedTracks, unassignedDetections] = ...
         assignDetectionsToTracks(cost, costOfNonAssignment);
+end
+
+% This function updates and corrects the location estimation we make for the tracks we detech
+% and updates the age of the tracks accordingly
+function updateAssignedTracks()
+    % finds number of tracks to correct
+    assignedTracks = size(assignments, 1);
+    for track = 1:assignedTracks
+        % gets id of current track
+        trackIdx = assignments(track, 1);
+        % gets id of the detection for the track
+        detectionIdx = assignments(track, 2);
+        % gets the centroid from detection
+        centroid = centroids(detectionIdx, :);
+        % gets the box drawn for the detection
+        bbox = bboxes(detectionIdx, :);
+
+        % With the new centroid, corrects and updates the previous track
+        correct(trackStruct(trackIdx).kalmanFilter, centroid);
+
+        % We can not replace the predicted bound box with the detected one
+        trackStruct(trackIdx).bbox = bbox;
+
+        % The track gains age for each update
+        trackStruct(trackIdx).age = trackStruct(trackIdx).age + 1;
+
+        % The visibility of the track was updated so we update the count
+        trackStruct(trackIdx).totalVisibleCount = ...
+            trackStruct(trackIdx).totalVisibleCount + 1;
+        % The invisible count must be set to 0 now that we have corrected
+        % the prediction
+        trackStruct(trackIdx).consecutiveInvisibleCount = 0;
+    end
 end
 
