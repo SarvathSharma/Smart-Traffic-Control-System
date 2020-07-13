@@ -26,6 +26,7 @@ while hasFrame(videoObject.videoReader)
        detectionToTrackAssignment();
    
    updateAssignedTracks();
+   updateUnassignedTracks();
 end
 
 
@@ -123,7 +124,8 @@ function [assignments, unassignedTracks, unassignedDetections] = ...
         assignDetectionsToTracks(cost, costOfNonAssignment);
 end
 
-% This function updates and corrects the location estimation we make for the tracks we detech
+% This function updates and corrects the location estimation we make for
+% the tracks we detect
 % and updates the age of the tracks accordingly
 function updateAssignedTracks()
     % finds number of tracks to correct
@@ -153,6 +155,21 @@ function updateAssignedTracks()
         % The invisible count must be set to 0 now that we have corrected
         % the prediction
         trackStruct(trackIdx).consecutiveInvisibleCount = 0;
+    end
+end
+
+% This function makes sure unassigned tracks are invisible
+function updateUnassignedTracks()
+    % for each track in the unassigned tracks
+    for track = 1:length(unassignedTracks)
+        % get the unassigned track
+        unassignedTrack = unassignedTracks(track);
+        % update the age of the unassigned track
+        trackStruct(unassignedTrack).age = ...
+            trackStruct(unassignedTrack).age + 1;
+        % mark unassigned track as invisible
+        trackStruct(unassignedTrack).consecutiveInvisibleCount = ...
+            trackStruct(unassignedTrack).consecutiveInvisibleCount + 1;
     end
 end
 
