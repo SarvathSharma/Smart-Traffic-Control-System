@@ -1,3 +1,7 @@
+% We are implementing a multiple object motion tracking system that
+% MathWorks developed. Our initial/personal implmentation can be found in
+% Tests/videoRendering
+
 % Using Kalman Filter and Motion Based tracking to determine and track 
 % vehicles
 
@@ -18,7 +22,8 @@ while hasFrame(videoObject.videoReader)
    singleFrame = readFrame(videoObject.videoReader);
    % Performs image filtering and blob analysis, then stores the centroids,
    % bboxes and the filtered Image
-   [centroids, bboxes, filteredImage] = detectObjects(singleFrame, videoObject);
+   [centroids, bboxes, filteredImage] = detectObjects(singleFrame,...
+       videoObject);
    % Predicts the new location of deteced objects
    predictLocation(trackStruct);
    % This function decides whether or not to use the predicted location
@@ -50,17 +55,17 @@ function videoObject = setupEnvironment()
     % We are using 2 video player methods, one for the dislaying and one 
     % for the foreground detector
     videoObject.videoPlayer = vision.VideoPlayer('Position', ...
-                                                [80, 300, 550, 400]);
+                                                [20, 400, 700, 400]);
     videoObject.foregroundPlayer = vision.VideoPlayer('Position', ...
                                                 [740, 400, 700, 400]);
                                             
     % Now we need to just add the methods for the Foreground Detector and
     % Blob Analysis of the images
-    videoObject.detector = vision.ForegroundDetector('NumGaussians', 3, ...
+    videoObject.detector = vision.ForegroundDetector('NumGaussians', 3,...
             'NumTrainingFrames', 40, 'MinimumBackgroundRatio', 0.7);
     videoObject.blobAnalyser = vision.BlobAnalysis('AreaOutputPort', ...
-        false, 'BoundingBoxOutputPort', true, 'CentroidOutputPort', ...
-        false, 'MinimumBlobArea', 250, 'ExcludeBorderBlobs', true);
+        true, 'BoundingBoxOutputPort', true, 'CentroidOutputPort', ...
+        true, 'MinimumBlobArea', 300, 'ExcludeBorderBlobs', true);
 end
 
 
@@ -77,18 +82,19 @@ function trackStruct = initializeTracks()
 end
 
 % Function performs image filtering and blob analysis
- function [centroids, bboxes, filteredFrame] = detectObjects(singleFrame, videoObject)
+ function [centroids, bboxes, filteredFrame] = detectObjects(singleFrame...
+     , videoObject)
  
-    % Detect foreground.
-    foregroundFrame = videoObject.detector.step(singleFrame);
+    % Detect foreground
+    filteredFrame = step(videoObject.detector, singleFrame);
     
-    % Apply morphological operations to remove noise and fill in holes.
-    filteredFrame = imopen(foregroundFrame, strel('rectangle', [3,3]));
+    % Apply morphological operations to remove noise and fill in holes
+    filteredFrame = imopen(filteredFrame, strel('rectangle', [3,3]));
     filteredFrame = imclose(filteredFrame, strel('rectangle', [15, 15]));
     filteredFrame = imfill(filteredFrame, 'holes');
 
-    % Perform blob analysis to find connected components.
-    [~, centroids, bboxes] = videoObject.blobAnalyser.step(filteredFrame);
+    % Perform blob analysis to find connected components
+    [~, centroids, bboxes] = step(videoObject.blobAnalyser, filteredFrame);
 
  end
 
@@ -124,7 +130,8 @@ function [assignments, unassignedTracks, unassignedDetections] = ...
     % Compute the cost of assigning each detection to each track.
     cost = zeros(totalTracks, totalDetections);
     for singleTrack = 1:totalDetections
-        cost(singleTrack, :) = distance(trackStruct(singleTrack).kalmanFilter, centroids);
+        cost(singleTrack, :) = distance(...
+            trackStruct(singleTrack).kalmanFilter, centroids);
     end
     
     % Solve the assignment problem using built in function.
@@ -182,7 +189,8 @@ function updateUnassignedTracks(trackStruct)
     end
 end
 
-%function deletes tracks that have been invisible for too many consecutive frames
+% Function deletes tracks that have been invisible for too many 
+% consecutive frames
 function newTrack =  deleteLostTracks(trackStruct)
     if isempty(trackStruct)
         return;
@@ -206,10 +214,12 @@ function newTrack =  deleteLostTracks(trackStruct)
  
  % This function creates new tracks from unassigned detections. 
  % Assume that any unassigned detection is a start of a new track.
-  function newTrack = createNewTracks(centroids, bboxes, nextId, trackStruct)
+  function newTrack = createNewTracks(centroids, bboxes, nextId,...
+      trackStruct)
     centroids = centroids(unassignedDetections, :);
     bboxes = bboxes(unassignedDetections, :);
-
+    
+    trackStruct(end+1) = zeros(size(centroids,1));
     for i = 1:size(centroids, 1)
 
         centroid = centroids(i,:);
@@ -240,7 +250,7 @@ end
 
 %This function draws a bounding box and label ID for each track ...
 % on the video frame and the foreground mask. 
-%It then displays the frame and the mask in their respective video players.
+%It then displays the frame and the mask in their respective video players
   function displayTrackingResults(singleFrame, trackStruct, mask)
     % Convert the frame and the mask to uint8 RGB.
     singleFrame = im2uint8(singleFrame);
@@ -288,5 +298,5 @@ end
     % Display the mask and the frame.
     obj.maskPlayer.step(mask);
     obj.videoPlayer.step(frame);
-end
-
+  end
+  
