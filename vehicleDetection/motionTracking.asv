@@ -22,7 +22,7 @@ while hasFrame(videoObject.videoReader)
    singleFrame = readFrame(videoObject.videoReader);
    % Performs image filtering and blob analysis, then stores the centroids,
    % bboxes and the filtered Image
-   [centroids, bboxes, filteredImage] = detectObjects(singleFrame, ...
+   [centroids, bboxes, filteredImage] = detectObjects(singleFrame,...
        videoObject);
    % Predicts the new location of deteced objects
    predictLocation(trackStruct);
@@ -85,6 +85,7 @@ end
  function [centroids, bboxes, filteredFrame] = detectObjects(singleFrame...
      , videoObject)
  
+    % grayScaledFrame = rgb2gray(singleFrame);
     % Detect foreground
     filteredFrame = step(videoObject.detector, singleFrame);
     
@@ -97,6 +98,7 @@ end
     [~, centroids, bboxes] = step(videoObject.blobAnalyser, filteredFrame);
 
  end
+
 
 % This function is responsible for predicting where the object will be of
 % it was covered by an external object (bridge, overpass, etc)
@@ -298,3 +300,4 @@ end
     obj.maskPlayer.step(mask);
     obj.videoPlayer.step(frame);
   end
+  
