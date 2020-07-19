@@ -5,8 +5,7 @@
 % Using Kalman Filter and Motion Based tracking to determine and track 
 % vehicles
 
-clc;	% Clear command window.
-clear;	% Delete all variables.
+function MotionBasedMultiObjectTrackingExample()
 
 % Create new object to analyze
 videoObject = setupEnvironment();
@@ -22,24 +21,24 @@ while hasFrame(videoObject.videoReader)
    singleFrame = readFrame(videoObject.videoReader);
    % Performs image filtering and blob analysis, then stores the centroids,
    % bboxes and the filtered Image
-   [centroids, bboxes, filteredImage] = detectObjects(singleFrame,...
-       videoObject.detector, videoObject.blobAnalyser);
+   [centroids, bboxes, filteredImage] = detectObjects(singleFrame);
    % Predicts the new location of deteced objects
-   trackStruct = predictLocation(trackStruct);
+   predictLocation();
    % This function decides whether or not to use the predicted location
    % based on confidence of detection and minimized cost
    [assignments, unassignedTracks, unassignedDetections] = ... 
-      detectionToTrackAssignment(trackStruct, centroids);
+      detectionToTrackAssignment();
 
-   trackStruct = updateAssignedTracks(trackStruct, centroids, bboxes, assignments);
-   trackStruct = updateUnassignedTracks(trackStruct, unassignedTracks);
-   % Updates struct
-   trackStruct = deleteLostTracks(trackStruct);
-   % Updates struct
-   [trackStruct , nextId, centroids, bboxes] = ...
-       createNewTracks(trackStruct, centroids, bboxes, nextId, unassignedDetections);
+   % Updates unidentified tracks as they move
+   updateAssignedTracks();
+   % Updates unidentified tracks as they move
+   updateUnassignedTracks();
+   % delete tracks for objects that leave frame
+   deleteLostTracks();
+   % Creates new tracks for objects that enter frame
+   createNewTracks();
    
-   bboxes = displayTrackingResults(videoObject, trackStruct, bboxes);
+   displayTrackingResults();
 end
 
 
@@ -83,24 +82,23 @@ function trackStruct = initializeTracks()
 end
 
 % Function performs image filtering and blob analysis
- function [centroids, bboxes, filteredFrame] = detectObjects(singleFrame,...
-     videoObjectDetector, videoObjectBlob)
+ function [centroids, bboxes, filteredImage] = detectObjects(singleFrame)
  
     % Detect foreground
-    filteredFrame = step(videoObjectDetector, singleFrame);
+    filteredImage = videoObject.detector.step(singleFrame);
     % Apply morphological operations to remove noise and fill in holes
-    filteredFrame = imopen(filteredFrame, strel('rectangle', [3,3]));
-    filteredFrame = imclose(filteredFrame, strel('rectangle', [15, 15]));
-    filteredFrame = imfill(filteredFrame, 'holes');
+    filteredImage = imopen(filteredImage, strel('rectangle', [3,3]));
+    filteredImage = imclose(filteredImage, strel('rectangle', [15, 15]));
+    filteredImage = imfill(filteredImage, 'holes');
 
     % Perform blob analysis to find connected components
-    [~, centroids, bboxes] = step(videoObjectBlob, filteredFrame);
+    [~, centroids, bboxes] = videoObject.blobAnalyser.step(filteredImage);
 
  end
 
 % This function is responsible for predicting where the object will be of
 % it was covered by an external object (bridge, overpass, etc)
-function trackStruct = predictLocation(trackStruct) 
+function predictLocation() 
     % By using the Kalman Filter (by MathWorks) we can predict the
     % location of each centroid in the given frame. We just need to update
     % the bbox around it to show that we have a idea as to where it is
@@ -121,7 +119,7 @@ end
 % This function decides whether or not to use the predicted location
 % based on confidence of detection and minimized cost
 function [assignments, unassignedTracks, unassignedDetections] = ... 
-    detectionToTrackAssignment(trackStruct, centroids)
+    detectionToTrackAssignment()
     
     totalTracks = length(trackStruct); % This is what we currently track
     totalDetections = size(centroids, 1);  % What can be added to track
@@ -142,8 +140,7 @@ end
 % This function updates and corrects the location estimation we make for
 % the tracks we detect
 % and updates the age of the tracks accordingly
-function trackStruct  = ...
-    updateAssignedTracks(trackStruct, centroids, bboxes, assignments)
+function updateAssignedTracks()
     % finds number of tracks to correct
     assignedTracks = size(assignments, 1);
     for track = 1:assignedTracks
@@ -175,7 +172,7 @@ function trackStruct  = ...
 end
 
 % This function makes sure unassigned tracks are invisible
-function trackStruct = updateUnassignedTracks(trackStruct, unassignedTracks)
+function updateUnassignedTracks()
     % for each track in the unassigned tracks
     for track = 1:length(unassignedTracks)
         % get the unassigned track
@@ -191,7 +188,7 @@ end
 
 % Function deletes tracks that have been invisible for too many 
 % consecutive frames
-function trackStruct = deleteLostTracks(trackStruct)
+function deleteLostTracks()
     if isempty(trackStruct)
         return;
     end
@@ -214,11 +211,10 @@ function trackStruct = deleteLostTracks(trackStruct)
  
  % This function creates new tracks from unassigned detections. 
  % Assume that any unassigned detection is a start of a new track.
-  function [trackStruct, nextId, centroids, bboxes] = createNewTracks(trackStruct, centroids, bboxes, nextId, unassignedDetections)
+  function createNewTracks()
     centroids = centroids(unassignedDetections, :);
     bboxes = bboxes(unassignedDetections, :);
     
-    trackStruct(end+1) = zeros(size(centroids,1));
     for i = 1:size(centroids, 1)
 
         centroid = centroids(i,:);
@@ -248,10 +244,10 @@ end
 %This function draws a bounding box and label ID for each track ...
 % on the video frame and the foreground mask. 
 %It then displays the frame and the mask in their respective video players
-function bboxes = displayTrackingResults(videoObject, trackStruct, bboxes)
+function displayTrackingResults()
     % Convert the frame and the mask to uint8 RGB.
     singleFrame = im2uint8(singleFrame);
-    mask = uint8(repmat(mask, [1, 1, 3])) .* 255;
+    filteredImage = uint8(repmat(filteredImage, [1, 1, 3])) .* 255;
 
     minVisibleCount = 8;
     if ~isempty(trackStruct)
@@ -287,12 +283,13 @@ function bboxes = displayTrackingResults(videoObject, trackStruct, bboxes)
                 bboxes, labels);
 
             % Draw the objects on the mask.
-            mask = insertObjectAnnotation(mask, 'rectangle', ...
+            filteredImage = insertObjectAnnotation(filteredImage, 'rectangle', ...
                 bboxes, labels);
         end
     end
 
     % Display the mask and the frame.
-    videoObject.videoPlayer.step(mask);
-    videoObject.foregroundPlayer.step(frame);
+    videoObject.videoPlayer.step(filteredImage);
+    videoObject.foregroundPlayer.step(singleFrame);
   end
+end
