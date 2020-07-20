@@ -50,7 +50,7 @@ for k = foregroundDetector.NumTrainingFrames : nframes
     total_cars = new_data(1);
     old_frame = new_data(2);
     
-
+    
     % name images from img001.jpg to imgN.jpg
     % filename = [sprintf('03%',k) '.jpg'];
     % fullname = fullfile(vidDir.'images',filename);
