@@ -52,10 +52,11 @@ function calibrating(trnframes)
   
     for i=1 : trnframes
         
-        singleFrame = readFrame(videoObj.reader);
+        % Read Frame
+        singleFrame = videoOb;
         
         % Train model
-        step(videoObj.detector, singleFrame);
+        step(model, singleFrame);
         
         %Insert Text
         position = [10,10];
@@ -84,7 +85,7 @@ end
         % Now we need to just add the methods for the Foreground Detector and
         % Blob Analysis of the images
         videoObj.detector = vision.ForegroundDetector('NumGaussians', 3, ...
-            'NumTrainingFrames', 150, 'MinimumBackgroundRatio', 0.7);
+            'NumTrainingFrames', 40, 'MinimumBackgroundRatio', 0.7);
 
         videoObj.blobAnalyser = vision.BlobAnalysis('BoundingBoxOutputPort', true, ...
             'AreaOutputPort', true, 'CentroidOutputPort', true, ...
