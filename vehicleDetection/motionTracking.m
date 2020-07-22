@@ -15,9 +15,15 @@ trackArr = initializeTracks(); % Create an empty array of tracks.
 
 nextId = 1; % ID of the next track
 
+% Initial data of the number of vehicles
+global oldFrame;
+global totalCars;
+global displayNumOfCars;
+oldFrame = 0;
+totalCars = 0;
+
 % Call to calibrating function
 calibrating(150);
-
 
 % Detection and Vehicle count for every frame in the video
 while hasFrame(videoObj.reader)
@@ -25,7 +31,13 @@ while hasFrame(videoObj.reader)
     currFrame = readFrame(videoObj.reader);
     % Performs image filtering and blob analysis, then stores the centroids,
     % bboxes and the filtered Image
-    [centroids, bboxes, filteredImage] = detectObjects(currFrame);
+    [centroids, bboxes, filteredImage, numOfCars] = detectObjects(currFrame, totalCars, oldFrame);
+    % Update the number of cars and display it on the screen
+    totalCars = numOfCars(1);
+    oldFrame = numOfCars(2);
+    displayNumOfCars = insertText(bboxes, [10 10], numOfCars(1),...
+                'BoxOpacity', 1, 'FontSize', 15);
+    imshow(displayNumOfCars);
     % Predicts the new location of deteced objects
     predictNewLocations();
     % This function decides whether or not to use the predicted location
@@ -104,7 +116,7 @@ end
     end
 
 % Function performs image filtering and blob analysis
-    function [centroids, bboxes, filteredImage] = detectObjects(currFrame)
+    function [centroids, bboxes, filteredImage, numOfCars] = detectObjects(currFrame, oldTotal, oldFrameNumCars)
 
         % Detect foreground.
         filteredImage = videoObj.detector.step(currFrame);
@@ -116,6 +128,18 @@ end
 
         % Perform blob analysis to find connected components.
         [~, centroids, bboxes] = videoObj.blobAnalyser.step(filteredImage);
+        currFrameNumCars = size(bboxes, 1);
+        
+        % A Stack ADT to update the total number of cars count
+        if currFrameNumCars >= oldFrameNumCars
+            % If the we notice more vehicles then we will update numOfCars
+            numOfCars(1) = oldTotal + (currFrameNumCars - oldFrameNumCars);
+            numOfCars(2) = currFrameNumCars;
+        else
+            % Otw we pass the old totals for the next process 
+            numOfCars(1) = oldTotal;
+            numOfCars(2) = currFrameNumCars;
+        end
     end
 
 % This function is responsible for predicting where the object will be of
