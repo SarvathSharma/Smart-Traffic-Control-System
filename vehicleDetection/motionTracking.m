@@ -15,9 +15,14 @@ trackArr = initializeTracks(); % Create an empty array of tracks.
 
 nextId = 1; % ID of the next track
 
+% Initial data of the number of vehicles
+global oldFrame;
+global totalCars;
+oldFrame = 0;
+totalCars = 0;
+
 % Call to calibrating function
 calibrating(150);
-
 
 % Detection and Vehicle count for every frame in the video
 while hasFrame(videoObj.reader)
@@ -25,14 +30,13 @@ while hasFrame(videoObj.reader)
     currFrame = readFrame(videoObj.reader);
     % Performs image filtering and blob analysis, then stores the centroids,
     % bboxes and the filtered Image
-    [centroids, bboxes, filteredImage] = detectObjects(currFrame);
+    [centroids, bboxes, filteredImage] = detectObjects(currFrame, totalCars, oldFrame);
     % Predicts the new location of deteced objects
     predictNewLocations();
     % This function decides whether or not to use the predicted location
     % based on confidence of detection and minimized cost
     [assignments, unassignedTracks, unassignedDetections] = ...
         detectionToTrackAssignment();
-
     % Updates unidentified tracks as they move
     updateAssignedTracks();
     % Updates unidentified tracks as they move
@@ -41,8 +45,14 @@ while hasFrame(videoObj.reader)
     deleteLostTracks();
     % Creates new tracks for objects that enter frame
     createNewTracks();
-
+    %Displays results
     displayTrackingResults();
+    
+    %EXPORT DATA USING totalCars variable
+    
+    
+    
+    %%%%%%%%%%%%%%%
 end
 
 %%%%%%%%%%%%% FUNCTION DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -60,11 +70,11 @@ function calibrating(trnframes)
         %Insert Text
         position = [10,10];
         box_color = 'black';
-        newIMG = insertText(singleFrame,position,'Calibrating...',...
+        calImage = insertText(singleFrame,position,'Calibrating...',...
             'FontSize',18,'BoxColor', box_color,'TextColor','white');
         
         %Output video with calibrating text in top left corner
-        imshow(newIMG);
+        imshow(calImage);
         
     end
 end
@@ -104,7 +114,7 @@ end
     end
 
 % Function performs image filtering and blob analysis
-    function [centroids, bboxes, filteredImage] = detectObjects(currFrame)
+    function [centroids, bboxes, filteredImage] = detectObjects(currFrame, oldTotal, oldFrameNumCars)
 
         % Detect foreground.
         filteredImage = videoObj.detector.step(currFrame);
@@ -298,18 +308,29 @@ end
                 isPredicted(predictedTrackInds) = {' predicted'};
                 labels = strcat(labels, isPredicted);
 
+                
+                % A Stack ADT to update the total number of cars count
+                currFrameNumCars = size(bboxes, 1);
+      
+                if currFrameNumCars >= oldFrame
+                    totalCars = totalCars + (currFrameNumCars - oldFrame);
+                    oldFrame = currFrameNumCars;
+                else
+                    oldFrame = currFrameNumCars;
+                end
+                
                 % Draw the objects on the frame.
                 currFrame = insertObjectAnnotation(currFrame, 'rectangle', ...
                     bboxes, labels);
-
-                % Draw the objects on the mask.
-                filteredImage = insertObjectAnnotation(filteredImage, 'rectangle', ...
-                    bboxes, labels);
+                
+                % Display total cars counter
+                currFrame = insertText(currFrame, [10 10], totalCars,...
+                'BoxOpacity', 1, 'FontSize', 15);
             end
         end
 
         % Display the mask and the frame.
-        videoObj.filteredPlayer.step(filteredImage);
+        % videoObj.filteredPlayer.step(filteredImage);
         videoObj.videoPlayer.step(currFrame);
     end
 end
