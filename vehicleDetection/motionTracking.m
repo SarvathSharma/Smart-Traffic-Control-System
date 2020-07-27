@@ -18,7 +18,6 @@ nextId = 1; % ID of the next track
 % Initial data of the number of vehicles
 global oldFrame;
 global totalCars;
-global displayNumOfCars;
 oldFrame = 0;
 totalCars = 0;
 
@@ -31,20 +30,13 @@ while hasFrame(videoObj.reader)
     currFrame = readFrame(videoObj.reader);
     % Performs image filtering and blob analysis, then stores the centroids,
     % bboxes and the filtered Image
-    [centroids, bboxes, filteredImage, numOfCars] = detectObjects(currFrame, totalCars, oldFrame);
-    % Update the number of cars and display it on the screen
-    totalCars = numOfCars(1);
-    oldFrame = numOfCars(2);
-    displayNumOfCars = insertText(bboxes, [10 10], numOfCars(1),...
-                'BoxOpacity', 1, 'FontSize', 15);
-    imshow(displayNumOfCars);
+    [centroids, bboxes, filteredImage] = detectObjects(currFrame, totalCars, oldFrame);
     % Predicts the new location of deteced objects
     predictNewLocations();
     % This function decides whether or not to use the predicted location
     % based on confidence of detection and minimized cost
     [assignments, unassignedTracks, unassignedDetections] = ...
         detectionToTrackAssignment();
-
     % Updates unidentified tracks as they move
     updateAssignedTracks();
     % Updates unidentified tracks as they move
@@ -53,8 +45,14 @@ while hasFrame(videoObj.reader)
     deleteLostTracks();
     % Creates new tracks for objects that enter frame
     createNewTracks();
-
+    %Displays results
     displayTrackingResults();
+    
+    %EXPORT DATA USING totalCars variable
+    
+    
+    
+    %%%%%%%%%%%%%%%
 end
 
 %%%%%%%%%%%%% FUNCTION DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -116,7 +114,7 @@ end
     end
 
 % Function performs image filtering and blob analysis
-    function [centroids, bboxes, filteredImage, numOfCars] = detectObjects(currFrame, oldTotal, oldFrameNumCars)
+    function [centroids, bboxes, filteredImage] = detectObjects(currFrame, oldTotal, oldFrameNumCars)
 
         % Detect foreground.
         filteredImage = videoObj.detector.step(currFrame);
@@ -128,18 +126,6 @@ end
 
         % Perform blob analysis to find connected components.
         [~, centroids, bboxes] = videoObj.blobAnalyser.step(filteredImage);
-        currFrameNumCars = size(bboxes, 1);
-        
-        % A Stack ADT to update the total number of cars count
-        if currFrameNumCars >= oldFrameNumCars
-            % If the we notice more vehicles then we will update numOfCars
-            numOfCars(1) = oldTotal + (currFrameNumCars - oldFrameNumCars);
-            numOfCars(2) = currFrameNumCars;
-        else
-            % Otw we pass the old totals for the next process 
-            numOfCars(1) = oldTotal;
-            numOfCars(2) = currFrameNumCars;
-        end
     end
 
 % This function is responsible for predicting where the object will be of
@@ -322,18 +308,29 @@ end
                 isPredicted(predictedTrackInds) = {' predicted'};
                 labels = strcat(labels, isPredicted);
 
+                
+                % A Stack ADT to update the total number of cars count
+                currFrameNumCars = size(bboxes, 1);
+      
+                if currFrameNumCars >= oldFrame
+                    totalCars = totalCars + (currFrameNumCars - oldFrame);
+                    oldFrame = currFrameNumCars;
+                else
+                    oldFrame = currFrameNumCars;
+                end
+                
                 % Draw the objects on the frame.
                 currFrame = insertObjectAnnotation(currFrame, 'rectangle', ...
                     bboxes, labels);
-
-                % Draw the objects on the mask.
-                filteredImage = insertObjectAnnotation(filteredImage, 'rectangle', ...
-                    bboxes, labels);
+                
+                % Display total cars counter
+                currFrame = insertText(currFrame, [10 10], totalCars,...
+                'BoxOpacity', 1, 'FontSize', 15);
             end
         end
 
         % Display the mask and the frame.
-        videoObj.filteredPlayer.step(filteredImage);
+        % videoObj.filteredPlayer.step(filteredImage);
         videoObj.videoPlayer.step(currFrame);
     end
 end
