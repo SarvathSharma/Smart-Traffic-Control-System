@@ -4,5 +4,6 @@
 # Datasource local storage ignored files
 /../../../../../:\GitHub\Smart-Traffic-Control-System\pipelineIntegration\.idea/dataSources/
 /dataSources.local.xml
+/../venv/
 # Editor-based HTTP Client requests
 /httpRequests/
