@@ -3,11 +3,11 @@
 
 import sys
 import matlab.engine
-eng = matlab.engine.start_matlab()
 
 positionOfPath = 1
 sys.path.insert(positionOfPath, '../vehicleDetection/motionTracking.m')
 
+eng = matlab.engine.start_matlab()
 
 # There are two ways we can do this. Either run it as a script or run it as a function
 

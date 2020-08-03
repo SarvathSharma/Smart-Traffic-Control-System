@@ -82,9 +82,9 @@ function motionTracking()
     dataToExport(index) = totalCars;
     
     
-    %%%%%% EXPORT SHOULD HAPPEN HERE %%%%%%%%%%%%%%%%%%
+    %%%%%% EXPORT FINAL DATA %%%%%%%%%%%%%%%%%%
     
-    
+    writematrix(dataToExport, 'finalData.csv')
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
