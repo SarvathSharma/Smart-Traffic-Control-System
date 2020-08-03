@@ -16,4 +16,4 @@ We are on the verge of creating a Smart Traffic Control System. By using Image P
 
 
 # Video Format
-We will be using .mp4 file formats.
+We will be using .mp4 file format with 60fps video quality.
