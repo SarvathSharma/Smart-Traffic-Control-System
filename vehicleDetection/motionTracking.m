@@ -6,80 +6,113 @@
 % vehicles
 
 %function runs video detection with the assitance of mini helper functions
-function MotionBasedMultiObjectTracking()
-% Create new object to analyze
-videoObj = setupSystem();
+function motionTracking()
+    % Create new object to analyze
+    videoObj = setupSystem();
 
-% Creates an empty array of structs with properties to track
-trackArr = initializeTracks(); % Create an empty array of tracks.
+    % Creates an empty array of structs with properties to track
+    trackArr = initializeTracks(); % Create an empty array of tracks.
 
-nextId = 1; % ID of the next track
+    nextId = 1; % ID of the next track
 
-% Initial data of the number of vehicles
-global oldFrame;
-global totalCars;
-oldFrame = 0;
-totalCars = 0;
-
-% Call to calibrating function
-calibrating(150);
-
-% Detection and Vehicle count for every frame in the video
-while hasFrame(videoObj.reader)
-       % Stores a single frame of the video
-    currFrame = readFrame(videoObj.reader);
-    % Performs image filtering and blob analysis, then stores the centroids,
-    % bboxes and the filtered Image
-    [centroids, bboxes, filteredImage] = detectObjects(currFrame, totalCars, oldFrame);
-    % Predicts the new location of deteced objects
-    predictNewLocations();
-    % This function decides whether or not to use the predicted location
-    % based on confidence of detection and minimized cost
-    [assignments, unassignedTracks, unassignedDetections] = ...
-        detectionToTrackAssignment();
-    % Updates unidentified tracks as they move
-    updateAssignedTracks();
-    % Updates unidentified tracks as they move
-    updateUnassignedTracks();
-    % delete tracks for objects that leave frame
-    deleteLostTracks();
-    % Creates new tracks for objects that enter frame
-    createNewTracks();
-    %Displays results
-    displayTrackingResults();
+    % Initial data of the number of vehicles
+    global oldFrame;
+    global totalCars;
+    oldFrame = 0;
+    totalCars = 0;
     
-    %EXPORT DATA USING totalCars variable
-    
-    
-    
-    %%%%%%%%%%%%%%%
-end
+    % Number of training frames
+    nTrainingFrames = 150;
 
-%%%%%%%%%%%%% FUNCTION DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Call to calibrating function 
+    calibrating(nTrainingFrames);
 
-% Calibration function
-function calibrating(trnframes)
-  
-    for i=1 : trnframes
-        
-        singleFrame = readFrame(videoObj.reader);
-        
-        % Train model
-        step(videoObj.detector, singleFrame);
-        
-        %Insert Text
-        position = [10,10];
-        box_color = 'black';
-        calImage = insertText(singleFrame,position,'Calibrating...',...
-            'FontSize',18,'BoxColor', box_color,'TextColor','white');
-        
-        %Output video with calibrating text in top left corner
-        imshow(calImage);
-        
+    %Keeps count of frames
+    intervalCounter = 0;
+    
+    %This should be changed to 108000 for production ( 30 minutes )
+    numFramesPerInterval = 100;
+    
+    %Stores total frames in video without training frames
+    nFrames = videoObj.reader.NumFrames - nTrainingFrames;
+    
+    %Keeps track of the index in array ( Starts at 1 for Matlab )
+    index = 1;
+    
+    %Data will be stored here, each index represents a time interval
+    dataToExport = zeros(1, ceil(nFrames / numFramesPerInterval));
+
+    % Detection and Vehicle count for every frame in the video
+    while hasFrame(videoObj.reader)
+        % Stores a single frame of the video
+        currFrame = readFrame(videoObj.reader);
+        % Performs image filtering and blob analysis, then stores the centroids,
+        % bboxes and the filtered Image
+        [centroids, bboxes, filteredImage] = detectObjects(currFrame);
+        % Predicts the new location of deteced objects
+        predictNewLocations();
+        % This function decides whether or not to use the predicted location
+        % based on confidence of detection and minimized cost
+        [assignments, unassignedTracks, unassignedDetections] = ...
+            detectionToTrackAssignment();
+        % Updates unidentified tracks as they move
+        updateAssignedTracks();
+        % Updates unidentified tracks as they move
+        updateUnassignedTracks();
+        % delete tracks for objects that leave frame
+        deleteLostTracks();
+        % Creates new tracks for objects that enter frame
+        createNewTracks();
+        %Displays results
+        displayTrackingResults();
+
+        %Adds to interval data
+        if intervalCounter == numFramesPerInterval
+            dataToExport(index) = totalCars;
+            index = index + 1;
+            % Resets the car count
+            totalCars = 0;
+            intervalCounter = 0;
+        else
+            intervalCounter = intervalCounter + 1;
+        end
     end
-end
+    
+    % Adds remaining cars to end of array
+    dataToExport(index) = totalCars;
+    
+    
+    %%%%%% EXPORT FINAL DATA %%%%%%%%%%%%%%%%%%
+    
+    writematrix(dataToExport, 'finalData.csv')
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Initial function to setup environment
+    %%%%%%%%%%%%% FUNCTION DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % Calibration function
+    function calibrating(trnframes)
+  
+        for i=1 : trnframes
+        
+            singleFrame = readFrame(videoObj.reader);
+            
+            % Train model
+            step(videoObj.detector, singleFrame);
+            
+            %Insert Text
+            position = [10,10];
+            box_color = 'black';
+            calImage = insertText(singleFrame,position,'Calibrating...',...
+                'FontSize',18,'BoxColor', box_color,'TextColor','white');
+            
+            %Output video with calibrating text in top left corner
+            imshow(calImage);
+            
+        end
+    end
+
+    % Initial function to setup environment
     function videoObj = setupSystem()
         % Constructor function that initializes a new object to analyze
     
@@ -101,7 +134,7 @@ end
             'MinimumBlobArea', 400);
     end
 
-% Function creates an empty array of structs with properties to track
+    % Function creates an empty array of structs with properties to track
     function trackArr = initializeTracks()
         % create an empty array of tracks
         trackArr = struct(...
@@ -113,8 +146,8 @@ end
             'consecutiveInvisibleCount', {});
     end
 
-% Function performs image filtering and blob analysis
-    function [centroids, bboxes, filteredImage] = detectObjects(currFrame, oldTotal, oldFrameNumCars)
+    % Function performs image filtering and blob analysis
+    function [centroids, bboxes, filteredImage] = detectObjects(currFrame)
 
         % Detect foreground.
         filteredImage = videoObj.detector.step(currFrame);
@@ -128,8 +161,8 @@ end
         [~, centroids, bboxes] = videoObj.blobAnalyser.step(filteredImage);
     end
 
-% This function is responsible for predicting where the object will be of
-% it was covered by an external object (bridge, overpass, etc)
+    % This function is responsible for predicting where the object will be of
+    % it was covered by an external object (bridge, overpass, etc)
     function predictNewLocations()
         % By using the Kalman Filter (by MathWorks) we can predict the
         % location of each centroid in the given frame. We just need to update
@@ -168,9 +201,9 @@ end
             assignDetectionsToTracks(cost, costOfNonAssignment);
     end
 
-% This function updates and corrects the location estimation we make for
-% the tracks we detect
-% and updates the age of the tracks accordingly
+    % This function updates and corrects the location estimation we make for
+    % the tracks we detect
+    % and updates the age of the tracks accordingly
     function updateAssignedTracks()
         % finds number of tracks to correct
         numAssignedTracks = size(assignments, 1);
