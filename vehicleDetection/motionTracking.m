@@ -72,6 +72,7 @@ function motionTracking()
             index = index + 1;
             % Resets the car count
             totalCars = 0;
+            oldFrame = 0;
             intervalCounter = 0;
         else
             intervalCounter = intervalCounter + 1;
