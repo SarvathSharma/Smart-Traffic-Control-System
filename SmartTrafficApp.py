@@ -62,18 +62,18 @@ def home():
     if request.method == 'POST':
         if 'file' not in request.files:
             flash('No file part')
+            return redirect(url_for('home'))
         file = request.files['file']
         if file.filename == '':
             flash('No selected file')
+            return redirect(url_for('home'))
         allowedExtension = allowed_file(file.filename)
         print("allowed extension " + allowedExtension if allowedExtension is not False else "")
         if file and allowedExtension is not False:
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], "traffic-test." + allowedExtension))
-        else:
-            # Remove the given CSV file and then run the MATLAB script to get the new data file
             os.remove('finalData.csv')
             run_matlab()
-            return render_template('index.html', data=graphData)
+            return redirect(url_for('home'))
 
     # Opening csv file
     if request.method == 'GET':
