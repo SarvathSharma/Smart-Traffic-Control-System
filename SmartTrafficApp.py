@@ -1,10 +1,10 @@
 import csv
 import os
-import os.path
 import re
 import shutil
 import sys
 import matlab.engine
+from os import path
 from flask import Flask, render_template, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
@@ -70,25 +70,26 @@ def home():
         allowedExtension = allowed_file(file.filename)
         print("allowed extension " + allowedExtension if allowedExtension is not False else "")
         if file and allowedExtension is not False:
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], "traffic-test." + allowedExtension))
-            os.remove('finalData.csv')
+            file.save(path.join(app.config['UPLOAD_FOLDER'], "traffic-test." + allowedExtension))
+            if path.exists('finalData.csv') : os.remove('finalData.csv')
             run_matlab()
             return redirect(url_for('home'))
 
     # Opening csv file
     if request.method == 'GET':
-      with open('finalData.csv', mode='r') as csv_file:
-          # Grab Data
-          data = list(csv.reader(csv_file))[0]
-          numPlots = len(data)
-          timeIntervals = []
-          numCars = []
-          for i in range(1, numPlots+1):
-              timeIntervals.append(i * 10)
-          for element in data:
-              numCars.append(int(element))
-          graphData = [timeIntervals, numCars]
-          print(graphData)
+        if path.exists('finalData.csv'):
+            with open('finalData.csv', mode='r') as csv_file:
+                # Grab Data
+                data = list(csv.reader(csv_file))[0]
+                numPlots = len(data)
+                timeIntervals = []
+                numCars = []
+                for i in range(1, numPlots+1):
+                    timeIntervals.append(i * 10)
+                for element in data:
+                    numCars.append(int(element))
+                graphData = [timeIntervals, numCars]
+                print(graphData)
     return render_template('index.html', data=graphData)
 
 
