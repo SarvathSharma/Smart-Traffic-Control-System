@@ -58,3 +58,7 @@
     transform: rotate(360deg);
   }
 }
+
+#graph{
+  display: block;
+}
