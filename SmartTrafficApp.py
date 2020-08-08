@@ -9,13 +9,14 @@ from os import path
 from flask import Flask, render_template, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = './vehicleDetection'
+UPLOAD_FOLDER = './static/uploads'
 ALLOWED_EXTENSIONS = {'mp4', 'MP4'}
 
 app = Flask(__name__)
 app.secret_key = 'oursecretkey'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+graphData = None
 
 def allowed_file(filename):
     extension = '.' in filename and filename.rsplit('.', 1)[1].lower()
@@ -74,7 +75,6 @@ def get_data():
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    graphData = None
     if request.method == 'POST':
         print(request)
         print(request.files)
