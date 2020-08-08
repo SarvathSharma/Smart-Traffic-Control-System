@@ -4,7 +4,7 @@ from flask import Flask, render_template, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = './vehicleDetection'
-ALLOWED_EXTENSIONS = {'mp4', 'MP4', 'avi', 'AVI', 'yuv', "YUV"}
+ALLOWED_EXTENSIONS = {'mp4', 'MP4'}
 
 app = Flask(__name__)
 app.secret_key = 'patrikbicho'
