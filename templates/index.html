@@ -1,5 +1,12 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>Upload a video and see the resulting traffic monitoring!</h1>
+    <div>
+        <h1>Upload a video and see the resulting traffic monitoring!</h1>
+
+        {% if data %}
+        <canvas id="myChart" data="{{ data }}"></canvas>
+        {% endif %}
+        
+    </div>
 {% endblock content %}
