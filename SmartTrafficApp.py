@@ -1,5 +1,6 @@
 import csv
 import os
+import os.path
 import re
 import shutil
 import sys
@@ -48,7 +49,7 @@ def run_matlab():
             newPath = shutil.move(x, currDir)
             print(x + " moved to " + currDir)
             os.chdir("./../")
-            sys.exit()
+            return
         else:
             # If it was not found let the user know, then if none match print an error
             print('File not matching regex key, moving to next one')
@@ -79,6 +80,7 @@ def home():
             print('creating file')
             file.save(path.join(app.config['UPLOAD_FOLDER'], "traffic-test." + allowedExtension))
             if path.exists('finalData.csv') : os.remove('finalData.csv')
+            print('about to run matlab')
             run_matlab()
             return redirect(url_for('home'))
 
