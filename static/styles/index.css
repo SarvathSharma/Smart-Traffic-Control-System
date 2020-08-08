@@ -1,6 +1,6 @@
 .homepage-card {
-    color: white;
-    background-image: url(/static/pictures/smart-traffic.jpg);
+    color: white;  
+    background-image: linear-gradient(rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(/static/pictures/index-background.jpg);
     background-size: cover;
     height: calc(100vh - 76px);
     width: 100vw;

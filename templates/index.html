@@ -7,12 +7,20 @@
             <h1>
                 Tired of slow traffic?
             </h1>
-            <p>
+            <h5>
+                We can help you monitor the peaks and troughs of your
+                traffic throughout the day!
+            </h5>
+            <p class="description">
                 Upload a video and see the resulting traffic monitoring!
             </p>
           <form method="post" enctype="multipart/form-data">
-              <input type="file" name="file" title="Select a Traffic Video">
-              <input type="submit" value="Upload">
+                <div class="upload-description">
+                    <input type="file" name="file" title="Select a Traffic Video">
+                </div>
+                <div class="upload-button">
+                    <input type="submit" value="Upload">
+                </div>
           </form>
           <div>
             {% if data %}
