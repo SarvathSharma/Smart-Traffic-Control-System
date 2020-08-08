@@ -12,7 +12,7 @@ UPLOAD_FOLDER = './vehicleDetection'
 ALLOWED_EXTENSIONS = {'mp4', 'MP4'}
 
 app = Flask(__name__)
-app.secret_key = 'patrikbicho'
+app.secret_key = 'oursecretkey'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -47,12 +47,14 @@ def run_matlab():
             print("File found: " + x)
             newPath = shutil.move(x, currDir)
             print(x + " moved to " + currDir)
+            os.chdir("./../")
             sys.exit()
         else:
             # If it was not found let the user know, then if none match print an error
             print('File not matching regex key, moving to next one')
 
     print('No CSV file was found, check MATLAB script for errors')
+    os.chdir("./../")
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -60,16 +62,21 @@ def run_matlab():
 def home():
     graphData = None
     if request.method == 'POST':
+        print(request)
+        print(request.files)
         if 'file' not in request.files:
+            print('no file part')
             flash('No file part')
             return redirect(url_for('home'))
         file = request.files['file']
         if file.filename == '':
+            print('no selected file')
             flash('No selected file')
             return redirect(url_for('home'))
         allowedExtension = allowed_file(file.filename)
         print("allowed extension " + allowedExtension if allowedExtension is not False else "")
         if file and allowedExtension is not False:
+            print('creating file')
             file.save(path.join(app.config['UPLOAD_FOLDER'], "traffic-test." + allowedExtension))
             if path.exists('finalData.csv') : os.remove('finalData.csv')
             run_matlab()
