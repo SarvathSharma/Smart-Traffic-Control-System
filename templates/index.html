@@ -10,6 +10,10 @@
             <p>
                 Upload a video and see the resulting traffic monitoring!
             </p>
+          <form method="post" enctype="multipart/form-data">
+              <input type="file" name="file" title="Select a Traffic Video">
+              <input type="submit" value="Upload">
+          </form>
           <div>
             {% if data %}
             <canvas id="myChart" data="{{ data }}"></canvas>
