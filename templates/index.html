@@ -12,12 +12,12 @@
       <p class="description">
         Upload a video and see the resulting traffic monitoring!
       </p>
-      <form id="myform" method="post" enctype="multipart/form-data">
+      <form id="upload-form" method="POST" enctype="multipart/form-data">
         <div class="upload-description">
-          <input class="form-control-file" type="file" />
+          <input name="file" type="file" />
         </div>
         <div class="upload-button">
-          <input class="btn btn-primary mb-2" type="submit" value="Upload" />
+          <input class="btn btn-primary mb-2" type="submit"/>
         </div>
       </form>
       <div class="loader" id="loading-animation"></div>
