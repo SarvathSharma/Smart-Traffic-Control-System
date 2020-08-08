@@ -2,15 +2,15 @@ import os
 from flask import Flask, render_template, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = './uploaded-videos'
-ALLOWED_EXTENSIONS = {'mp4', 'MP4', '.avi', '.AVI'}
+UPLOAD_FOLDER = './vehicleDetection'
+ALLOWED_EXTENSIONS = {'mp4', 'MP4', 'avi', 'AVI', 'yuv', "YUV"}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    extension = '.' in filename and filename.rsplit('.', 1)[1].lower()
+    return '.' in filename and extension in ALLOWED_EXTENSIONS and extension
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
@@ -21,9 +21,10 @@ def home():
         file = request.files['file']
         if file.filename == '':
             flash('No selected file')
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        allowedExtension = allowed_file(file.filename)
+        print("allowed extension " + allowedExtension)
+        if file and allowedExtension:
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], "traffic-test." + allowedExtension))
     return render_template('index.html')
 
 @app.route('/aboutus')
