@@ -78,9 +78,9 @@
 
 .about-us-image{
     grid-area: Image;
-    height: 200px;
-    width: 200px;
-    margin: 0 auto;
+    height: 275px;
+    width: 250px;
+    margin: auto;
 }
 
 .about-us-description{
