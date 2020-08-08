@@ -6,6 +6,7 @@ UPLOAD_FOLDER = './vehicleDetection'
 ALLOWED_EXTENSIONS = {'mp4', 'MP4', 'avi', 'AVI', 'yuv', "YUV"}
 
 app = Flask(__name__)
+app.secret_key = 'patrikbicho'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
@@ -22,8 +23,8 @@ def home():
         if file.filename == '':
             flash('No selected file')
         allowedExtension = allowed_file(file.filename)
-        print("allowed extension " + allowedExtension)
-        if file and allowedExtension:
+        print("allowed extension " + allowedExtension if allowedExtension is not False else "")
+        if file and allowedExtension is not False:
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], "traffic-test." + allowedExtension))
     return render_template('index.html')
 
