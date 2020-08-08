@@ -1,31 +1,60 @@
 .homepage-card {
-    color: white;  
-    background-image: linear-gradient(rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(/static/pictures/index-background.jpg);
-    background-size: cover;
-    height: calc(100vh - 76px);
-    width: 100vw;
-    display: block;
-    padding-top: 128px;
+  color: white;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+    url(/static/pictures/index-background.jpg);
+  background-size: cover;
+  height: calc(100vh - 76px);
+  width: 100vw;
+  display: block;
+  padding-top: 128px;
 }
 
 .heading-text {
-    width: calc(200% / 3);
-    align-self: center;
-    padding-left: 32px;
+  width: calc(200% / 3);
+  align-self: center;
+  padding-left: 32px;
 }
 
-.home-page-image{
-    grid-area: Image;
-    height: 200px;
-    width: 200px;
-    margin: 0 auto;
+.home-page-image {
+  grid-area: Image;
+  height: 200px;
+  width: 200px;
+  margin: 0 auto;
 }
-.upload-description{
-    margin-top: 32px;
-    margin-bottom: 16px;
+.upload-description {
+  margin-top: 32px;
+  margin-bottom: 16px;
 }
-.upload-button{
-    margin-top: 16px;
-    margin-bottom: 32px;
-    
+.upload-button {
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+.loader {
+  display: none;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
