@@ -24,6 +24,17 @@ function motionTracking()
     % Number of training frames
     nTrainingFrames = 150;
 
+    %Stores total frames in video without training frames
+    nFrames = videoObj.reader.NumFrames - nTrainingFrames;
+    
+    if nFrames < 200
+        nFramesStr = num2str(nFrames)
+        warningStr = "Not enough frames in video. Contains following number of frames: "
+        nFramesStr = append(warningStr, nFramesStr)
+        ME = MException("MyVideo:notEnoughFrames", nFramesStr, nFrames)
+        throw(ME)
+    end
+
     % Call to calibrating function 
     calibrating(nTrainingFrames);
 
@@ -32,10 +43,7 @@ function motionTracking()
     
     %This should be changed to 108000 for production ( 30 minutes )
     numFramesPerInterval = 100;
-    
-    %Stores total frames in video without training frames
-    nFrames = videoObj.reader.NumFrames - nTrainingFrames;
-    
+
     %Keeps track of the index in array ( Starts at 1 for Matlab )
     index = 1;
     

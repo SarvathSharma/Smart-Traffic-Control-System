@@ -1,18 +1,20 @@
 import csv
 import os
-import os.path
 import shutil
 import sys
 import matlab.engine
 from os import path
+from os.path import join
 from flask import Flask, render_template, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = './static/uploads'
 ALLOWED_EXTENSIONS = {'mp4', 'MP4'}
 
 app = Flask(__name__)
 app.secret_key = 'oursecretkey'
+
+APP_ROOT = path.dirname(path.abspath(__file__))
+UPLOAD_FOLDER = join(APP_ROOT, 'static/uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 graphData = None
@@ -36,14 +38,19 @@ def run_matlab():
     # Start the MATLAB engine and run the motionTracking script
     # After running the script show the new files in the directory
     eng = matlab.engine.start_matlab()
-    eng.motionTracking(nargout=0)
+    try:
+        eng.motionTracking(nargout=0)
+    except:
+        os.chdir("./../")
+        return False
     arr2 = os.listdir(projectDir)
     print("Final files in directory " + str(arr2))
     os.chdir("./../")
+    return True
 
 def get_data():
     if path.exists('./vehicleDetection/finalData.csv'):
-        with open('./vehicleDetection/finalData.csv/', mode='r') as csv_file:
+        with open('./vehicleDetection/finalData.csv', mode='r') as csv_file:
             # Grab Data
             data = list(csv.reader(csv_file))[0]
             numPlots = len(data)
@@ -75,9 +82,10 @@ def home():
         print("allowed extension " + allowedExtension if allowedExtension is not False else "")
         if file and allowedExtension is not False:
             print('creating file')
-            file.save(path.join(app.config['UPLOAD_FOLDER'], "traffic-test." + allowedExtension))
-            get_data()
-            run_matlab()
+            savePath = join(UPLOAD_FOLDER, "traffic-test." + allowedExtension)
+            file.save(savePath)
+            res = run_matlab()
+            if res is not False: get_data()
             return redirect(url_for('home'))
 
     # Opening csv file
