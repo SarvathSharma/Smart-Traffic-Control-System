@@ -70,6 +70,7 @@ def get_data():
                 timeIntervals.append(i * 10)
             for element in data:
                 numCars.append(int(element))
+            global graphData
             graphData = [timeIntervals, numCars]
 
 @app.route('/', methods=['GET', 'POST'])
@@ -92,9 +93,6 @@ def home():
         if file and allowedExtension is not False:
             print('creating file')
             file.save(path.join(app.config['UPLOAD_FOLDER'], "traffic-test." + allowedExtension))
-            if path.exists('finalData.csv') : os.remove('finalData.csv')
-            print('about to run matlab')
-            run_matlab()
             get_data()
             return redirect(url_for('home'))
 
