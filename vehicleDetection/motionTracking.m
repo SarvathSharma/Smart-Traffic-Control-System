@@ -118,7 +118,8 @@ function motionTracking()
         % Constructor function that initializes a new object to analyze
     
         % Video Reader method
-        videoObj.reader = VideoReader('../static/uploads/traffic-test.mp4');
+        file = fullfile('..', 'static', 'uploads', 'traffic-test.mp4');
+        videoObj.reader = VideoReader(file);
 
         % We are using 2 video player methods, one for the dislaying and one 
         % for the foreground detector
