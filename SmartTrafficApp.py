@@ -17,6 +17,7 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def home():
+    graphData = None
     if request.method == 'POST':
         if 'file' not in request.files:
             flash('No file part')
