@@ -20,3 +20,12 @@
     width: 200px;
     margin: 0 auto;
 }
+.upload-description{
+    margin-top: 32px;
+    margin-bottom: 16px;
+}
+.upload-button{
+    margin-top: 16px;
+    margin-bottom: 32px;
+    
+}
