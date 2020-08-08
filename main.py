@@ -12,7 +12,7 @@ import matlab.engine
 # Then move to the directory where the MATLAB script is
 currDir = os.getcwd()
 print("Current directory " + currDir)
-os.chdir("../vehicleDetection")
+os.chdir("./vehicleDetection")
 projectDir = os.getcwd()
 print("Moved to " + projectDir)
 arr = os.listdir(projectDir)
