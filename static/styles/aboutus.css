@@ -77,8 +77,9 @@
 }
 
 .about-us-image{
+    background-size: contain;
     grid-area: Image;
-    height: 275px;
+    height: 250px;
     width: 250px;
     margin: auto;
 }
