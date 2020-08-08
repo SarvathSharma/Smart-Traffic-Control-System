@@ -57,6 +57,19 @@ def run_matlab():
     print('No CSV file was found, check MATLAB script for errors')
     os.chdir("./../")
 
+def get_data():
+    if path.exists('finalData.csv'):
+        with open('finalData.csv', mode='r') as csv_file:
+            # Grab Data
+            data = list(csv.reader(csv_file))[0]
+            numPlots = len(data)
+            timeIntervals = []
+            numCars = []
+            for i in range(1, numPlots+1):
+                timeIntervals.append(i * 10)
+            for element in data:
+                numCars.append(int(element))
+            graphData = [timeIntervals, numCars]
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
@@ -82,24 +95,12 @@ def home():
             if path.exists('finalData.csv') : os.remove('finalData.csv')
             print('about to run matlab')
             run_matlab()
+            get_data()
             return redirect(url_for('home'))
 
     # Opening csv file
     if request.method == 'GET':
-        if path.exists('finalData.csv'):
-            with open('finalData.csv', mode='r') as csv_file:
-                # Grab Data
-                data = list(csv.reader(csv_file))[0]
-                numPlots = len(data)
-                timeIntervals = []
-                numCars = []
-                for i in range(1, numPlots+1):
-                    timeIntervals.append(i * 10)
-                for element in data:
-                    numCars.append(int(element))
-                graphData = [timeIntervals, numCars]
-                print(graphData)
-    return render_template('index.html', data=graphData)
+        return render_template('index.html', data=graphData)
 
 
 @app.route('/aboutus')
