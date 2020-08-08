@@ -77,7 +77,7 @@ def home():
             print('creating file')
             file.save(path.join(app.config['UPLOAD_FOLDER'], "traffic-test." + allowedExtension))
             get_data()
-            run_matlab():
+            run_matlab()
             return redirect(url_for('home'))
 
     # Opening csv file
