@@ -14,10 +14,11 @@ app = Flask(__name__)
 app.secret_key = 'oursecretkey'
 
 APP_ROOT = path.dirname(path.abspath(__file__))
-UPLOAD_FOLDER = join(APP_ROOT, 'static/uploads')
+UPLOAD_FOLDER = join(APP_ROOT, 'static', 'uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 graphData = None
+error = False
 
 def allowed_file(filename):
     extension = '.' in filename and filename.rsplit('.', 1)[1].lower()
@@ -48,8 +49,10 @@ def run_matlab():
     os.chdir("./../")
     return True
 
-def get_data():
-    if path.exists('./vehicleDetection/finalData.csv'):
+def get_data(response):
+    global graphData
+    global error
+    if response and path.exists('./vehicleDetection/finalData.csv'):
         with open('./vehicleDetection/finalData.csv', mode='r') as csv_file:
             # Grab Data
             data = list(csv.reader(csv_file))[0]
@@ -60,8 +63,11 @@ def get_data():
                 timeIntervals.append(i * 10)
             for element in data:
                 numCars.append(int(element))
-            global graphData
             graphData = [timeIntervals, numCars]
+            error = False
+    else:
+        graphData = None
+        error = True
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
@@ -85,12 +91,12 @@ def home():
             savePath = join(UPLOAD_FOLDER, "traffic-test." + allowedExtension)
             file.save(savePath)
             res = run_matlab()
-            if res is not False: get_data()
+            get_data(res)
             return redirect(url_for('home'))
 
     # Opening csv file
     if request.method == 'GET':
-        return render_template('index.html', data=graphData)
+        return render_template('index.html', data=graphData, error=error)
 
 
 @app.route('/aboutus')

@@ -20,6 +20,11 @@
           <input class="btn btn-primary mb-2" type="submit"/>
         </div>
       </form>
+    {% if error %}
+      <p id='error-text'>
+        Video size is too small, please upload a larger video to analyze!
+      </p>
+    {% endif %}
       <div id='loading-animation'>
         <div class="spinner" >
           <div class="rect1"></div>
@@ -30,7 +35,9 @@
         </div>
         <small>This will take a few minutes depending on the size of the video</small>
       </div>
+    {% if data %}
       <p id='help-text'>Scroll down to view the graph!</p>
+    {% endif %}
   </div>
   </div>
   <div id="graph">

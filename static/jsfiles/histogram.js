@@ -21,7 +21,4 @@ if( document.getElementById('myChart') ){
         // Configuration options go here
         options: {}
     });
-}else{
-    var helpText = document.getElementById('help-text');
-    helpText.style.display = 'none';
 }

@@ -99,6 +99,6 @@
   }
 }
 
-#help-text{
-  display: block;
+#error-text{
+  color: red;
 }
