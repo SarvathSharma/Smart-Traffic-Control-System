@@ -2,4 +2,8 @@
 
 {% block content %}
     <h1>Upload a video and see the resulting traffic monitoring!</h1>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file" title="Select a Traffic Video">
+        <input type="submit" value="Upload">
+    </form>
 {% endblock content %}
