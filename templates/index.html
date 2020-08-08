@@ -1,9 +1,25 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} 
 
 {% block content %}
-    <h1>Upload a video and see the resulting traffic monitoring!</h1>
-    <form method="post" enctype="multipart/form-data">
-        <input type="file" name="file" title="Select a Traffic Video">
-        <input type="submit" value="Upload">
-    </form>
+<div>
+    <div class="homepage-card">
+        <div class="heading-text">
+            <h1>
+                Tired of slow traffic?
+            </h1>
+            <p>
+                Upload a video and see the resulting traffic monitoring!
+            </p>
+          <form method="post" enctype="multipart/form-data">
+              <input type="file" name="file" title="Select a Traffic Video">
+              <input type="submit" value="Upload">
+          </form>
+          <div>
+            {% if data %}
+            <canvas id="myChart" data="{{ data }}"></canvas>
+            {% endif %}
+          </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

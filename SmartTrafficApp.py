@@ -1,3 +1,4 @@
+import csv
 import os
 from flask import Flask, render_template, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
@@ -26,7 +27,22 @@ def home():
         print("allowed extension " + allowedExtension if allowedExtension is not False else "")
         if file and allowedExtension is not False:
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], "traffic-test." + allowedExtension))
-    return render_template('index.html')
+
+    # Opening csv file
+    if request.method == 'GET':
+      with open('finalData.csv', mode='r') as csv_file:
+          # Grab Data
+          data = list(csv.reader(csv_file))[0]
+          numPlots = len(data)
+          timeIntervals = []
+          numCars = []
+          for i in range(1, numPlots+1):
+              timeIntervals.append(i * 10)
+          for element in data:
+              numCars.append(int(element))
+          graphData = [timeIntervals, numCars]
+          print(graphData)
+    return render_template('index.html', data=graphData)
 
 @app.route('/aboutus')
 def aboutus():
