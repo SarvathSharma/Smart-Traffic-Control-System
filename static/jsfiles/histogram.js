@@ -23,6 +23,5 @@ if( document.getElementById('myChart') ){
     });
 }else{
     var helpText = document.getElementById('help-text');
-    console.log("hello")
     helpText.style.display = 'none';
 }

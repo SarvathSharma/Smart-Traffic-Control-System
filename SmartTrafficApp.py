@@ -1,7 +1,6 @@
 import csv
 import os
 import os.path
-import re
 import shutil
 import sys
 import matlab.engine
@@ -40,27 +39,11 @@ def run_matlab():
     eng.motionTracking(nargout=0)
     arr2 = os.listdir(projectDir)
     print("Final files in directory " + str(arr2))
-
-    # Given the list of the new files check each one of them and find the csv file
-    for x in arr2:
-        fileToMove = re.match(r".*\.csv", x)
-        if fileToMove:
-            # If the csv file is found, move it to the same directory as the Python script
-            print("File found: " + x)
-            newPath = shutil.move(x, currDir)
-            print(x + " moved to " + currDir)
-            os.chdir("./../")
-            return
-        else:
-            # If it was not found let the user know, then if none match print an error
-            print('File not matching regex key, moving to next one')
-
-    print('No CSV file was found, check MATLAB script for errors')
     os.chdir("./../")
 
 def get_data():
-    if path.exists('finalData.csv'):
-        with open('finalData.csv', mode='r') as csv_file:
+    if path.exists('./vehicleDetection/finalData.csv'):
+        with open('./vehicleDetection/finalData.csv/', mode='r') as csv_file:
             # Grab Data
             data = list(csv.reader(csv_file))[0]
             numPlots = len(data)
@@ -94,6 +77,7 @@ def home():
             print('creating file')
             file.save(path.join(app.config['UPLOAD_FOLDER'], "traffic-test." + allowedExtension))
             get_data()
+            run_matlab():
             return redirect(url_for('home'))
 
     # Opening csv file
