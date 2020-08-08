@@ -1,5 +1,6 @@
-{% extends "layout.html" %} {% block content %}
+{% extends "layout.html" %} 
 
+{% block content %}
 <div>
     <div class="homepage-card">
         <div class="heading-text">
@@ -9,8 +10,12 @@
             <p>
                 Upload a video and see the resulting traffic monitoring!
             </p>
+          <div>
+            {% if data %}
+            <canvas id="myChart" data="{{ data }}"></canvas>
+            {% endif %}
+          </div>
         </div>
     </div>
 </div>
-
 {% endblock content %}
