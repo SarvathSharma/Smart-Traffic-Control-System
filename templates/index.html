@@ -1,12 +1,21 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} 
 
 {% block content %}
-    <div>
-        <h1>Upload a video and see the resulting traffic monitoring!</h1>
-
-        {% if data %}
-        <canvas id="myChart" data="{{ data }}"></canvas>
-        {% endif %}
-        
+<div>
+    <div class="homepage-card">
+        <div class="heading-text">
+            <h1>
+                Tired of slow traffic?
+            </h1>
+            <p>
+                Upload a video and see the resulting traffic monitoring!
+            </p>
+          <div>
+            {% if data %}
+            <canvas id="myChart" data="{{ data }}"></canvas>
+            {% endif %}
+          </div>
+        </div>
     </div>
+</div>
 {% endblock content %}
