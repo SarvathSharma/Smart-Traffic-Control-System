@@ -28,10 +28,10 @@ function motionTracking()
     nFrames = videoObj.reader.NumFrames - nTrainingFrames;
     
     if nFrames < 200
-        nFramesStr = num2str(nFrames)
-        warningStr = "Not enough frames in video. Contains following number of frames: "
-        nFramesStr = append(warningStr, nFramesStr)
-        ME = MException("MyVideo:notEnoughFrames", nFramesStr, nFrames)
+        nFramesStr = num2str(nFrames);
+        warningStr = "Not enough frames in video. Contains following number of frames: ";
+        nFramesStr = append(warningStr, nFramesStr);
+        ME = MException("MyVideo:notEnoughFrames", nFramesStr, nFrames);
         throw(ME)
     end
 
@@ -126,8 +126,7 @@ function motionTracking()
         % Constructor function that initializes a new object to analyze
     
         % Video Reader method
-        file = fullfile('..', 'static', 'uploads', 'traffic-test.mp4');
-        videoObj.reader = VideoReader(file);
+        videoObj.reader = VideoReader('traffic-test.mp4');
 
         % We are using 2 video player methods, one for the dislaying and one 
         % for the foreground detector
