@@ -28,10 +28,10 @@ function motionTracking()
     nFrames = videoObj.reader.NumFrames - nTrainingFrames;
     
     if nFrames < 200
-        nFramesStr = num2str(nFrames)
-        warningStr = "Not enough frames in video. Contains following number of frames: "
-        nFramesStr = append(warningStr, nFramesStr)
-        ME = MException("MyVideo:notEnoughFrames", nFramesStr, nFrames)
+        nFramesStr = num2str(nFrames);
+        warningStr = "Not enough frames in video. Contains following number of frames: ";
+        nFramesStr = append(warningStr, nFramesStr);
+        ME = MException("MyVideo:notEnoughFrames", nFramesStr, nFrames);
         throw(ME)
     end
 
@@ -131,8 +131,8 @@ function motionTracking()
 
         % We are using 2 video player methods, one for the dislaying and one 
         % for the foreground detector
-        videoObj.filteredPlayer = vision.VideoPlayer('Position', [740, 400, 700, 400]);
-        videoObj.videoPlayer = vision.VideoPlayer('Position', [20, 400, 700, 400]);
+        % videoObj.filteredPlayer = vision.VideoPlayer('Position', [740, 400, 700, 400]);
+        % videoObj.videoPlayer = vision.VideoPlayer('Position', [20, 400, 700, 400]);
 
         % Now we need to just add the methods for the Foreground Detector and
         % Blob Analysis of the images

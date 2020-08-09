@@ -1,7 +1,6 @@
 import csv
 import os
-import shutil
-import sys
+import motionTracking
 import matlab.engine
 from os import path
 from os.path import join
