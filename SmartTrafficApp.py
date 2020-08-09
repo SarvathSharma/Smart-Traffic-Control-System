@@ -1,7 +1,7 @@
 import csv
 import os
 import motionTracking
-import matlab.engine
+import matlab
 from os import path
 from os.path import join
 from flask import Flask, render_template, flash, request, redirect, url_for
@@ -37,7 +37,7 @@ def run_matlab():
 
     # Start the MATLAB engine and run the motionTracking script
     # After running the script show the new files in the directory
-    eng = matlab.engine.start_matlab()
+    eng = motionTracking.initialize()
     try:
         eng.motionTracking(nargout=0)
     except:

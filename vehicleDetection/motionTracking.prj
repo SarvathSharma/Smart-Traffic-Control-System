@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration file="D:\GitHub\Smart-Traffic-Control-System\vehicleDetection\motionTracking.prj" location="D:\GitHub\Smart-Traffic-Control-System\vehicleDetection" name="motionTracking" target="target.ezdeploy.standalone" target-name="Application Compiler">
+  <configuration file="D:\GitHub\Smart-Traffic-Control-System\vehicleDetection\motionTracking.prj" location="D:\GitHub\Smart-Traffic-Control-System\vehicleDetection" name="motionTracking" target="target.ezdeploy.library" target-name="Library Compiler">
     <param.appname>motionTracking</param.appname>
     <param.icon />
     <param.icons />
@@ -9,21 +9,29 @@
     <param.company />
     <param.summary />
     <param.description />
-    <param.screenshot>D:\GitHub\Smart-Traffic-Control-System\static\pictures\traffic-light.png</param.screenshot>
+    <param.screenshot />
     <param.guid />
     <param.installpath.string>\motionTracking\</param.installpath.string>
     <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
     <param.logo />
     <param.install.notes />
-    <param.target.install.notes />
+    <param.target.install.notes>You must have Python 2.7, 3.6, and/or 3.7 on your machine to install this package. Go to the directory containing your package and the file setup.py and execute:
+
+        python setup.py install [options]
+
+For details, see GettingStarted.html, distributed with this package, or the official Python documentation at:
+
+        https://docs.python.org/2/install/index.html</param.target.install.notes>
     <param.intermediate>${PROJECT_ROOT}\motionTracking\for_testing</param.intermediate>
     <param.files.only>${PROJECT_ROOT}\motionTracking\for_redistribution_files_only</param.files.only>
     <param.output>${PROJECT_ROOT}\motionTracking\for_redistribution</param.output>
     <param.logdir>${PROJECT_ROOT}\motionTracking</param.logdir>
     <param.enable.clean.build>false</param.enable.clean.build>
     <param.user.defined.mcr.options />
-    <param.target.type>subtarget.standalone</param.target.type>
+    <param.target.type>subtarget.python.module</param.target.type>
     <param.support.packages />
+    <param.namespace />
+    <param.classorg />
     <param.web.mcr>true</param.web.mcr>
     <param.package.mcr>false</param.package.mcr>
     <param.no.mcr>false</param.no.mcr>
@@ -33,15 +41,19 @@
     <param.windows.command.prompt>true</param.windows.command.prompt>
     <param.create.log>false</param.create.log>
     <param.log.file />
-    <param.native.matlab>false</param.native.matlab>
-    <param.checkbox>false</param.checkbox>
-    <param.example />
-    <param.help.text>Syntax 
-	  -? 
-	 
- Input Arguments 
-	 -?  print help on how to use the application 
-	 input arguments</param.help.text>
+    <param.user.only.registration>false</param.user.only.registration>
+    <param.assembly.type>false</param.assembly.type>
+    <param.encryption.key.file />
+    <param.net.enable.remoting>false</param.net.enable.remoting>
+    <param.net.tsa.enable>false</param.net.tsa.enable>
+    <param.net.tsa.assembly />
+    <param.net.tsa.interface />
+    <param.net.tsa.namespace />
+    <param.net.tsa.superclass>Class1</param.net.tsa.superclass>
+    <param.net.tsa.metadata />
+    <param.net.tsa.metadata.assembly>${PROJECT_ROOT}</param.net.tsa.metadata.assembly>
+    <param.net.saved.interface />
+    <param.cpp.api>option.cpp.all</param.cpp.api>
     <unset>
       <param.icon />
       <param.icons />
@@ -51,20 +63,21 @@
       <param.company />
       <param.summary />
       <param.description />
+      <param.screenshot />
       <param.guid />
       <param.installpath.string />
       <param.installpath.combo />
       <param.logo />
       <param.install.notes />
-      <param.target.install.notes />
       <param.intermediate />
       <param.files.only />
       <param.output />
       <param.logdir />
       <param.enable.clean.build />
       <param.user.defined.mcr.options />
-      <param.target.type />
       <param.support.packages />
+      <param.namespace />
+      <param.classorg />
       <param.web.mcr />
       <param.package.mcr />
       <param.no.mcr />
@@ -74,20 +87,38 @@
       <param.windows.command.prompt />
       <param.create.log />
       <param.log.file />
-      <param.native.matlab />
-      <param.checkbox />
-      <param.example />
+      <param.user.only.registration />
+      <param.assembly.type />
+      <param.encryption.key.file />
+      <param.net.enable.remoting />
+      <param.net.tsa.enable />
+      <param.net.tsa.assembly />
+      <param.net.tsa.interface />
+      <param.net.tsa.namespace />
+      <param.net.tsa.superclass />
+      <param.net.tsa.metadata />
+      <param.net.tsa.metadata.assembly />
+      <param.net.saved.interface />
+      <param.cpp.api />
     </unset>
-    <fileset.main>
+    <fileset.exports>
       <file>${PROJECT_ROOT}\motionTracking.m</file>
-    </fileset.main>
+    </fileset.exports>
+    <fileset.classes>
+      <entity.package name="">
+        <entity.class name="Class1">
+          <file>${PROJECT_ROOT}\motionTracking.m</file>
+        </entity.class>
+      </entity.package>
+    </fileset.classes>
     <fileset.resources />
-    <fileset.package />
     <fileset.depfun />
+    <fileset.package />
+    <fileset.examples />
+    <fileset.documentation />
     <build-deliverables>
-      <file location="${PROJECT_ROOT}\motionTracking\for_testing" name="readme.txt" optional="true">D:\GitHub\Smart-Traffic-Control-System\vehicleDetection\motionTracking\for_testing\readme.txt</file>
-      <file location="${PROJECT_ROOT}\motionTracking\for_testing" name="splash.png" optional="false">D:\GitHub\Smart-Traffic-Control-System\vehicleDetection\motionTracking\for_testing\splash.png</file>
-      <file location="${PROJECT_ROOT}\motionTracking\for_testing" name="motionTracking.exe" optional="false">D:\GitHub\Smart-Traffic-Control-System\vehicleDetection\motionTracking\for_testing\motionTracking.exe</file>
+      <file location="${PROJECT_ROOT}\motionTracking\for_testing" name="motionTracking" optional="false">D:\GitHub\Smart-Traffic-Control-System\vehicleDetection\motionTracking\for_testing\motionTracking</file>
+      <file location="${PROJECT_ROOT}\motionTracking\for_testing" name="setup.py" optional="false">D:\GitHub\Smart-Traffic-Control-System\vehicleDetection\motionTracking\for_testing\setup.py</file>
     </build-deliverables>
     <workflow />
     <matlab>
