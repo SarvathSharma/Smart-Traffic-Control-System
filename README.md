@@ -9,10 +9,10 @@ We are on the verge of creating a Smart Traffic Control System. By using Image P
 1. Grab videos of traffic intersections
 2. Analyze the density and patterns of the environment using Matlab
     1. Need to clean image and isolate vehicles on the road using foreground detection
-    2. Once cleaned, use Blob Analysis to detect and track vehicles 
-3. Write said data into a file and store it for reference
-4. Using Python (TBD) analyze the video and output final parameters
-5. Output will be in a GUI or just another data file (TBD)
+    2. Once cleaned, use Blob Analysis/Kalman Filter to detect and track vehicles 
+3. Using a Queue ADT, store the values of the traffic density into a CSV file
+4. Using Python run the MATLAB script and display the graph of the traffic flow on the website
+5. Using a server and host run the entire program instead of locally running it
 
 
 # Video Format
