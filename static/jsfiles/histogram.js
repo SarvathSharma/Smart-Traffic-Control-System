@@ -5,7 +5,7 @@ if( document.getElementById('myChart') ){
     const yAxis = data[1];
     var chart = new Chart(ctx, {
         // The type of chart we want to create
-        type: 'bar',
+        type: 'line',
 
         // The data for our dataset
         data: {

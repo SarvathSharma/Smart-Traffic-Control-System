@@ -31,7 +31,9 @@
 }
 
 #graph {
+  margin: 64px auto;
   display: block;
+  width: 90%;
 }
 
 #loading-animation {
