@@ -24,6 +24,17 @@ function motionTracking()
     % Number of training frames
     nTrainingFrames = 150;
 
+    %Stores total frames in video without training frames
+    nFrames = videoObj.reader.NumFrames - nTrainingFrames;
+    
+    if nFrames < 200
+        nFramesStr = num2str(nFrames);
+        warningStr = "Not enough frames in video. Contains following number of frames: ";
+        nFramesStr = append(warningStr, nFramesStr);
+        ME = MException("MyVideo:notEnoughFrames", nFramesStr, nFrames);
+        throw(ME)
+    end
+
     % Call to calibrating function 
     calibrating(nTrainingFrames);
 
@@ -32,10 +43,7 @@ function motionTracking()
     
     %This should be changed to 108000 for production ( 30 minutes )
     numFramesPerInterval = 100;
-    
-    %Stores total frames in video without training frames
-    nFrames = videoObj.reader.NumFrames - nTrainingFrames;
-    
+
     %Keeps track of the index in array ( Starts at 1 for Matlab )
     index = 1;
     
@@ -107,8 +115,8 @@ function motionTracking()
             calImage = insertText(singleFrame,position,'Calibrating...',...
                 'FontSize',18,'BoxColor', box_color,'TextColor','white');
             
-            %Output video with calibrating text in top left corner
-            imshow(calImage);
+            % Output video with calibrating text in top left corner
+            % imshow(calImage);
             
         end
     end
@@ -118,12 +126,13 @@ function motionTracking()
         % Constructor function that initializes a new object to analyze
     
         % Video Reader method
-        videoObj.reader = VideoReader('TrafficTest2.mp4');
+        file = fullfile('..', 'static', 'uploads', 'traffic-test.mp4');
+        videoObj.reader = VideoReader(file);
 
         % We are using 2 video player methods, one for the dislaying and one 
         % for the foreground detector
-        videoObj.filteredPlayer = vision.VideoPlayer('Position', [740, 400, 700, 400]);
-        videoObj.videoPlayer = vision.VideoPlayer('Position', [20, 400, 700, 400]);
+        % videoObj.filteredPlayer = vision.VideoPlayer('Position', [740, 400, 700, 400]);
+        % videoObj.videoPlayer = vision.VideoPlayer('Position', [20, 400, 700, 400]);
 
         % Now we need to just add the methods for the Foreground Detector and
         % Blob Analysis of the images
@@ -365,6 +374,6 @@ function motionTracking()
 
         % Display the mask and the frame.
         % videoObj.filteredPlayer.step(filteredImage);
-        videoObj.videoPlayer.step(currFrame);
+        % videoObj.videoPlayer.step(currFrame);
     end
 end

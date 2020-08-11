@@ -1,5 +1,49 @@
-{% extends "layout.html" %}
-
-{% block content %}
-    <h1>Upload a video and see the resulting traffic monitoring!</h1>
+{% extends "layout.html" %} {% block content %}
+<div>
+  <div class="homepage-card">
+    <div class="heading-text">
+      <h1>
+        Tired of slow traffic?
+      </h1>
+      <h5>
+        We can help you monitor the peaks and troughs of your traffic throughout
+        the day!
+      </h5>
+      <p class="description">
+        Upload a video and see the resulting traffic monitoring!
+      </p>
+      <form id="upload-form" method="POST" enctype="multipart/form-data">
+        <div class="upload-description">
+          <input name="file" type="file" />
+        </div>
+        <div class="upload-button">
+          <input class="btn btn-primary mb-2" type="submit"/>
+        </div>
+      </form>
+    {% if error %}
+      <p id='error-text'>
+        Video size is too small, please upload a larger video to analyze!
+      </p>
+    {% endif %}
+      <div id='loading-animation'>
+        <div class="spinner" >
+          <div class="rect1"></div>
+          <div class="rect2"></div>
+          <div class="rect3"></div>
+          <div class="rect4"></div>
+          <div class="rect5"></div>
+        </div>
+        <small>This will take a few minutes depending on the size of the video</small>
+      </div>
+    {% if data %}
+      <p id='help-text'>Scroll down to view the graph!</p>
+    {% endif %}
+  </div>
+  </div>
+  <div id="graph">
+    {% if data %}
+    <canvas id="myChart" data="{{ data }}" ></canvas>
+    {% endif %}
+  </div>
+</div>
 {% endblock content %}
