@@ -21,12 +21,12 @@
         </div>
       </form>
     {% if error %}
-      <p id='error-text'>
+      <p id='error-text' class="error">
         Video size is too small, please upload a larger video to analyze!
       </p>
     {% endif %}
     {% if extensionError %}
-      <p id='extension-error-text'>
+      <p id='extension-error-text' class="error">
         Sorry, we only accept .mp4 format files, please upload your video in a different format!
       </p>
     {% endif %}
