@@ -8,7 +8,12 @@ p{
     font-size: 1.25rem;
 }
 
-.div {
-    color:white;
-    background-color: #181818;
+a:hover,:active,:visited{
+    text-decoration: none;
+}
+
+.github{
+    margin-bottom: 3px;
+    margin-left: 6px;
+    margin-right: 6px;
 }
