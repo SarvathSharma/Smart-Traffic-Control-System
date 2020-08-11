@@ -19,11 +19,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 graphData = None
 error = False
 
-
 def allowed_file(filename):
-    # extension = '.' in filename and filename.rsplit('.', 1)[1].lower()
-    # return '.' in filename and extension in ALLOWED_EXTENSIONS and extension
-    return filename.lower().endswith('.mp4')
+    extension = '.' in filename and filename.rsplit('.', 1)[1].lower()
+    return '.' in filename and extension in ALLOWED_EXTENSIONS and extension
 
 
 def run_matlab():
@@ -95,7 +93,9 @@ def home():
             file.save(savePath)
             res = run_matlab()
             get_data(res)
-            return redirect(url_for('home'))
+        else:
+            
+        return redirect(url_for('home'))
 
     # Opening csv file
     if request.method == 'GET':
