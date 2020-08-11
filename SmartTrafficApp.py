@@ -19,9 +19,11 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 graphData = None
 error = False
 
+
 def allowed_file(filename):
-    extension = '.' in filename and filename.rsplit('.', 1)[1].lower()
-    return '.' in filename and extension in ALLOWED_EXTENSIONS and extension
+    # extension = '.' in filename and filename.rsplit('.', 1)[1].lower()
+    # return '.' in filename and extension in ALLOWED_EXTENSIONS and extension
+    return filename.lower().endswith('.mp4')
 
 
 def run_matlab():
@@ -48,6 +50,7 @@ def run_matlab():
     os.chdir("./../")
     return True
 
+
 def get_data(response):
     global graphData
     global error
@@ -67,6 +70,7 @@ def get_data(response):
     else:
         graphData = None
         error = True
+
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
