@@ -115,8 +115,8 @@ function motionTracking()
             calImage = insertText(singleFrame,position,'Calibrating...',...
                 'FontSize',18,'BoxColor', box_color,'TextColor','white');
             
-            %Output video with calibrating text in top left corner
-            imshow(calImage);
+            % Output video with calibrating text in top left corner
+            % imshow(calImage);
             
         end
     end
@@ -374,6 +374,6 @@ function motionTracking()
 
         % Display the mask and the frame.
         % videoObj.filteredPlayer.step(filteredImage);
-        videoObj.videoPlayer.step(currFrame);
+        % videoObj.videoPlayer.step(currFrame);
     end
 end
