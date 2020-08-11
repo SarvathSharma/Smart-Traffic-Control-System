@@ -1,6 +1,6 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration file="D:\GitHub\Smart-Traffic-Control-System\vehicleDetection\motionTracking.prj" location="D:\GitHub\Smart-Traffic-Control-System\vehicleDetection" name="motionTracking" target="target.ezdeploy.library" target-name="Library Compiler">
-    <param.appname>motionTracking</param.appname>
+  <configuration file="D:\GitHub\Smart-Traffic-Control-System\vehicleDetection\motionTrackingProject.prj" location="D:\GitHub\Smart-Traffic-Control-System\vehicleDetection" name="motionTrackingProject" target="target.ezdeploy.library" target-name="Library Compiler">
+    <param.appname>motionTrackingProject</param.appname>
     <param.icon />
     <param.icons />
     <param.version>1.0</param.version>
@@ -11,7 +11,7 @@
     <param.description />
     <param.screenshot />
     <param.guid />
-    <param.installpath.string>\motionTracking\</param.installpath.string>
+    <param.installpath.string>\motionTrackingProject\</param.installpath.string>
     <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
     <param.logo />
     <param.install.notes />
@@ -22,10 +22,10 @@
 For details, see GettingStarted.html, distributed with this package, or the official Python documentation at:
 
         https://docs.python.org/2/install/index.html</param.target.install.notes>
-    <param.intermediate>${PROJECT_ROOT}\motionTracking\for_testing</param.intermediate>
-    <param.files.only>${PROJECT_ROOT}\motionTracking\for_redistribution_files_only</param.files.only>
-    <param.output>${PROJECT_ROOT}\motionTracking\for_redistribution</param.output>
-    <param.logdir>${PROJECT_ROOT}\motionTracking</param.logdir>
+    <param.intermediate>${PROJECT_ROOT}\motionTrackingProject\for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}\motionTrackingProject\for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}\motionTrackingProject\for_redistribution</param.output>
+    <param.logdir>${PROJECT_ROOT}\motionTrackingProject</param.logdir>
     <param.enable.clean.build>false</param.enable.clean.build>
     <param.user.defined.mcr.options />
     <param.target.type>subtarget.python.module</param.target.type>
@@ -117,8 +117,8 @@ For details, see GettingStarted.html, distributed with this package, or the offi
     <fileset.examples />
     <fileset.documentation />
     <build-deliverables>
-      <file location="${PROJECT_ROOT}\motionTracking\for_testing" name="motionTracking" optional="false">D:\GitHub\Smart-Traffic-Control-System\vehicleDetection\motionTracking\for_testing\motionTracking</file>
-      <file location="${PROJECT_ROOT}\motionTracking\for_testing" name="setup.py" optional="false">D:\GitHub\Smart-Traffic-Control-System\vehicleDetection\motionTracking\for_testing\setup.py</file>
+      <file location="${PROJECT_ROOT}\motionTrackingProject\for_testing" name="motionTrackingProject" optional="false">D:\GitHub\Smart-Traffic-Control-System\vehicleDetection\motionTrackingProject\for_testing\motionTrackingProject</file>
+      <file location="${PROJECT_ROOT}\motionTrackingProject\for_testing" name="setup.py" optional="false">D:\GitHub\Smart-Traffic-Control-System\vehicleDetection\motionTrackingProject\for_testing\setup.py</file>
     </build-deliverables>
     <workflow />
     <matlab>

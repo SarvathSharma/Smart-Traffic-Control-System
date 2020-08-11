@@ -21,7 +21,7 @@ class _PathInitializer(object):
     SUPPORTED_PYTHON_VERSIONS = ['2_7', '3_6', '3_7']
     RUNTIME_VERSION_W_DOTS = '9.8'
     RUNTIME_VERSION_W_UNDERSCORES = '9_8'
-    PACKAGE_NAME = 'motionTracking'
+    PACKAGE_NAME = 'motionTrackingProject'
     
     def set_interpreter_version(self):    
         """Make sure the interpreter version is supported."""
