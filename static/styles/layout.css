@@ -1,7 +1,14 @@
 body {
     padding-top: 76px;
+    color:white;
+    background-color: #181818;
 }
 
 p{
     font-size: 1.25rem;
+}
+
+.div {
+    color:white;
+    background-color: #181818;
 }

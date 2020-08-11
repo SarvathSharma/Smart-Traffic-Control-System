@@ -12,7 +12,8 @@
 .heading-text {
   width: calc(200% / 3);
   align-self: center;
-  padding-left: 32px;
+  padding-left: 64px;
+  margin-top: 48px;
 }
 
 .error{
@@ -26,7 +27,7 @@
   margin: 0 auto;
 }
 .upload-description {
-  margin-top: 32px;
+  margin-top: 64px;
   margin-bottom: 16px;
 }
 .upload-button {
