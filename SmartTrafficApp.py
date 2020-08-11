@@ -18,6 +18,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 graphData = None
 error = False
+extensionError = False
 
 def allowed_file(filename):
     extension = '.' in filename and filename.rsplit('.', 1)[1].lower()
@@ -52,6 +53,7 @@ def run_matlab():
 def get_data(response):
     global graphData
     global error
+    global extensionError
     if response and path.exists('./vehicleDetection/finalData.csv'):
         with open('./vehicleDetection/finalData.csv', mode='r') as csv_file:
             # Grab Data
@@ -65,14 +67,19 @@ def get_data(response):
                 numCars.append(int(element))
             graphData = [timeIntervals, numCars]
             error = False
+            extensionError = False
     else:
         graphData = None
         error = True
+        extensionError = False
 
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def home():
+    global extensionError
+    global error
+    global graphData
     if request.method == 'POST':
         print(request)
         print(request.files)
@@ -94,12 +101,14 @@ def home():
             res = run_matlab()
             get_data(res)
         else:
-            
+            extensionError = True
+            error = False
+            graphData = None
         return redirect(url_for('home'))
 
     # Opening csv file
     if request.method == 'GET':
-        return render_template('index.html', data=graphData, error=error)
+        return render_template('index.html', data=graphData, error=error, extensionError=extensionError)
 
 
 @app.route('/aboutus')

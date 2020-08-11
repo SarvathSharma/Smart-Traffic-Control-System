@@ -25,6 +25,11 @@
         Video size is too small, please upload a larger video to analyze!
       </p>
     {% endif %}
+    {% if extensionError %}
+      <p id='extension-error-text'>
+        Sorry, we only accept .mp4 format files, please upload your video in a different format!
+      </p>
+    {% endif %}
       <div id='loading-animation'>
         <div class="spinner" >
           <div class="rect1"></div>
