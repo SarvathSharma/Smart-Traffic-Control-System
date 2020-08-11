@@ -1,6 +1,6 @@
 import csv
 import os
-import motionTracking
+import motionTrackingProject
 import matlab
 from os import path
 from os.path import join
@@ -37,7 +37,7 @@ def run_matlab():
 
     # Start the MATLAB engine and run the motionTracking script
     # After running the script show the new files in the directory
-    eng = motionTracking.initialize()
+    eng = motionTrackingProject.initialize()
     try:
         eng.motionTracking(nargout=0)
     except:
