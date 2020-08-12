@@ -29,7 +29,7 @@
 
 .two-column-left {
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr 2fr;
     grid-template-columns: auto;
     grid-template-areas:
     " Image "
@@ -54,7 +54,7 @@
 
 .two-column-right {
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr 2fr;
     grid-template-columns: auto;
     grid-template-areas:
     " Image "
