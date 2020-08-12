@@ -3,7 +3,6 @@
   background-image: linear-gradient(rgba(0, 0, 0, .75), rgba(0, 0, 0, .75)), url(/static/pictures/traffic.jpg);
   background-size: cover;
   height: calc(100vh - 76px);
-  width: 100vw;
   display: flex;
   padding-top: 300px;
   flex-direction: column;
