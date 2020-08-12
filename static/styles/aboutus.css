@@ -5,20 +5,20 @@
   height: calc(100vh - 76px);
   width: 100vw;
   display: flex;
-  padding-top: 128px;
+  padding-top: 300px;
+  flex-direction: column;
 }
 
 .heading-text {
   width: calc(200% / 3);
+  text-align: center;
   align-self: center;
-  padding-left: 32px;
 }
 
-@media only screen and (min-device-width: 768px) {
-    .heading-text {
-      padding-left: 250px;
-    }
+.sub-heading-text{
+    margin-top: 48px;
 }
+  
 
 .centered-text {
   text-align: center;
@@ -87,3 +87,15 @@
 .about-us-description{
     grid-area: Description;
 }
+
+.arrow-down{
+    filter: brightness(0) invert(1);
+    padding: 8px 8px;
+}
+
+.center {
+    display: block;
+    margin-top: 48px;
+    margin-left: auto;
+    margin-right: auto;
+  }
