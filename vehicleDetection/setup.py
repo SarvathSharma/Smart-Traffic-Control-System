@@ -24,9 +24,9 @@ if __name__ == '__main__':
         url='https://www.mathworks.com/',
         platforms=['Linux', 'Windows', 'MacOS'],
         packages=[
-            'motionTrackingProject'
+            'motionTracking'
         ],
-        package_data={'motionTrackingProject': ['*.ctf']},
+        package_data={'motionTracking': ['*.ctf']},
         # Executes the custom code above in order to delete the build area.
         cmdclass={'install': InstallRuntime}
     )
