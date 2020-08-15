@@ -1,6 +1,6 @@
 import csv
 import os
-import motionTrackingProject
+import motionTracking
 import matlab
 from os import path
 from os.path import join
@@ -31,6 +31,8 @@ def run_matlab():
     currDir = os.getcwd()
     print("Current directory " + currDir)
     os.chdir("./vehicleDetection")
+    # In the linux server
+    # os.chdir('/root/Smart-Traffic-Control-System/vehicleDetection')
     projectDir = os.getcwd()
     print("Moved to " + projectDir)
     arr = os.listdir(projectDir)
@@ -38,7 +40,7 @@ def run_matlab():
 
     # Start the MATLAB engine and run the motionTracking script
     # After running the script show the new files in the directory
-    eng = motionTrackingProject.initialize()
+    eng = motionTracking.initialize()
     try:
         eng.motionTracking(nargout=0)
     except:
@@ -55,6 +57,8 @@ def get_data(response):
     global error
     global extensionError
     if response and path.exists('./vehicleDetection/finalData.csv'):
+        # In linux server
+        # with open('/root/Smart-Traffic-Control-System/finalData.csv', mode='r') as csv_file:
         with open('./vehicleDetection/finalData.csv', mode='r') as csv_file:
             # Grab Data
             data = list(csv.reader(csv_file))[0]
@@ -118,3 +122,5 @@ def aboutus():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    # On linux server
+    # app.run(debug=True, host='0.0.0.0', port=5000, threaded=true)
