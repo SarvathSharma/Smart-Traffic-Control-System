@@ -2,6 +2,7 @@ import csv
 import os
 import motionTracking
 import matlab
+import shutil
 from os import path
 from os.path import join
 from flask import Flask, render_template, flash, request, redirect, url_for
@@ -48,6 +49,7 @@ def run_matlab():
         return False
     arr2 = os.listdir(projectDir)
     print("Final files in directory " + str(arr2))
+    shutil.move('finalVideo.mp4', '../static/videos/')
     os.chdir("./../")
     return True
 
