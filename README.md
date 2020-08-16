@@ -1,6 +1,7 @@
 # Smart-Traffic-Control-System
 
 Created By: Patrik Beqo, Sathira Katugaha and Sarvath Sharma
+
 Link to Web App: https://traffic.xor.dev/
 
 # Purpose:
