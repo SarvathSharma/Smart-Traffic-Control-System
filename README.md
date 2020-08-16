@@ -1,6 +1,7 @@
 # Smart-Traffic-Control-System
 
 Created By: Patrik Beqo, Sathira Katugaha and Sarvath Sharma
+Link to Web App: https://traffic.xor.dev/
 
 # Purpose:
 We are on the verge of creating a Smart Traffic Control System. By using Image Processing Tools from Matlab we aim to take an input, which will be a video of an intersection where we will interpret the density of the traffic flow throughout certain points in time. This data will then be used to determine the duration of traffic signals and will show a histogram of the traffic flow. The histogram will show the number of cars and from which direction the density is the largest (TBD). 
