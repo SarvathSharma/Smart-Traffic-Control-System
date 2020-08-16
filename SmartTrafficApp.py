@@ -49,8 +49,12 @@ def run_matlab():
         return False
     arr2 = os.listdir(projectDir)
     print("Final files in directory " + str(arr2))
-    shutil.move('finalVideo.mp4', '../static/videos/')
     os.chdir("./../")
+    if path.exists('static/videos/finalVideo,mp4'):
+        os.remove('static/videos/finalVideo.mp4')
+        shutil.move('vehicleDetection/finalVideo.mp4', 'static/videos/')
+    else:
+        shutil.move('vehicleDetection/finalVideo.mp4', 'static/videos')
     return True
 
 
