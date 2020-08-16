@@ -47,7 +47,7 @@
   </div>
     {% if data %}
   <div id="graph">
-    <video controls="" autoplay="" name="media">
+    <video controls="" autoplay="" width=100% name="media">
       <source src="{{ url_for('static', filename='videos/finalVideo.mp4') }}" type="video/mp4">
     </video>
     <canvas id="myChart" data="{{ data }}" ></canvas>
