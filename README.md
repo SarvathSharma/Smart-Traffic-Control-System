@@ -17,5 +17,8 @@ We are on the verge of creating a Smart Traffic Control System. By using Image P
 5. Using a server and host run the entire program instead of locally running it
 
 
-# Video Format
+# Video Format:
 We will be using .mp4 file format with 60fps video quality.
+
+# Extra Info:
+To watch the actual MATLAB script run make sure you have MATLAB installed and download the GitHub repo. In the motionTracking.m file, you will need to un-comment the lines in the setupSystem() function. Specifically the VideoPlayer lines
