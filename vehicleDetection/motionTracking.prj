@@ -51,7 +51,7 @@ For details, see GettingStarted.html, distributed with this package, or the offi
     <param.net.tsa.namespace />
     <param.net.tsa.superclass>Class1</param.net.tsa.superclass>
     <param.net.tsa.metadata />
-    <param.net.tsa.metadata.assembly>${PROJECT_ROOT}</param.net.tsa.metadata.assembly>
+    <param.net.tsa.metadata.assembly>D:\GitHub\Smart-Traffic-Control-System\vehicleDetection</param.net.tsa.metadata.assembly>
     <param.net.saved.interface />
     <param.cpp.api>option.cpp.all</param.cpp.api>
     <unset>

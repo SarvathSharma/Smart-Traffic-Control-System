@@ -51,7 +51,7 @@ function motionTracking()
     dataToExport = zeros(1, ceil(nFrames / numFramesPerInterval));
 
     % Initialize the video writer
-    open(videoObj.finalVideo);
+    % open(videoObj.finalVideo);
     
     % Detection and Vehicle count for every frame in the video
     while hasFrame(videoObj.reader)
@@ -90,11 +90,11 @@ function motionTracking()
         end
         
         % Wrte the new frames into the video
-        writeVideo(videoObj.finalVideo, currFrame);
+        % writeVideo(videoObj.finalVideo, currFrame);
     end
     
     % End off the video writer
-    close(videoObj.finalVideo);
+    % close(videoObj.finalVideo);
     
     % Adds remaining cars to end of array
     dataToExport(index) = totalCars;
@@ -144,8 +144,8 @@ function motionTracking()
         % videoObj.videoPlayer = vision.VideoPlayer('Position', [20, 400, 700, 400]);
         
         % Generate the video writer object
-        videoObj.finalVideo = VideoWriter('finalVideo.mp4', 'MPEG-4');
-        videoObj.finalVideo.FrameRate = videoObj.reader.FrameRate;
+        % videoObj.finalVideo = VideoWriter('finalVideo.mp4', 'MPEG-4');
+        % videoObj.finalVideo.FrameRate = videoObj.reader.FrameRate;
         
         % Now we need to just add the methods for the Foreground Detector and
         % Blob Analysis of the images
