@@ -62,9 +62,11 @@ def get_data(response):
     global graphData
     global error
     global extensionError
+    # In Linux server
+    # if response and path.exists('/root/Smart-Traffic-Control-System/vehicleDetection/finalData.csv'):
     if response and path.exists('./vehicleDetection/finalData.csv'):
         # In linux server
-        # with open('/root/Smart-Traffic-Control-System/finalData.csv', mode='r') as csv_file:
+        # with open('/root/Smart-Traffic-Control-System/vehicleDetection/finalData.csv', mode='r') as csv_file:
         with open('./vehicleDetection/finalData.csv', mode='r') as csv_file:
             # Grab Data
             data = list(csv.reader(csv_file))[0]
@@ -129,4 +131,4 @@ def aboutus():
 if __name__ == '__main__':
     app.run(debug=True)
     # On linux server
-    # app.run(debug=False, host='0.0.0.0', port=5000, threaded=True)
+    # app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
