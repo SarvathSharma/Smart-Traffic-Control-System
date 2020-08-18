@@ -144,7 +144,7 @@ function motionTracking()
         % videoObj.videoPlayer = vision.VideoPlayer('Position', [20, 400, 700, 400]);
         
         % Generate the video writer object
-        videoObj.finalVideo = VideoWriter('finalVideo.mp4', 'MPEG-4');
+        videoObj.finalVideo = VideoWriter('finalVideo.avi', 'Motion JPEG AVI');
         videoObj.finalVideo.FrameRate = videoObj.reader.FrameRate;
         
         % Now we need to just add the methods for the Foreground Detector and
