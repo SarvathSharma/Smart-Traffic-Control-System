@@ -15,7 +15,7 @@
     <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
     <param.logo />
     <param.install.notes />
-    <param.target.install.notes>You must have Python 2.7, 3.6, and/or 3.7 on your machine to install this package. Go to the directory containing your package and the file setup.py and execute:
+    <param.target.install.notes>You must have Python 2.7, 3.6, 3.7, and/or 3.8 on your machine to install this package. Go to the directory containing your package and the file setup.py and execute:
 
         python setup.py install [options]
 
@@ -122,8 +122,21 @@ For details, see GettingStarted.html, distributed with this package, or the offi
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>D:\MATLAB\R2020a</root>
-      <toolboxes />
+      <root>D:\MATLAB\R2020b</root>
+      <toolboxes>
+        <toolbox name="matlabcoder" />
+        <toolbox name="neuralnetwork" />
+      </toolboxes>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+      <toolbox>
+        <neuralnetwork>
+          <enabled>true</enabled>
+        </neuralnetwork>
+      </toolbox>
     </matlab>
     <platform>
       <unix>false</unix>
