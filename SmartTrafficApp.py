@@ -41,6 +41,7 @@ def run_matlab():
 
     # Start the MATLAB engine and run the motionTracking script
     # After running the script show the new files in the directory
+    # And shut down the MATLAB process to save hassle 
     eng = motionTracking.initialize()
     try:
         eng.motionTracking(nargout=0)
@@ -49,6 +50,7 @@ def run_matlab():
         return False
     arr2 = os.listdir(projectDir)
     print("Final files in directory " + str(arr2))
+    eng.terminate()
     os.chdir("./../")
     # if path.exists('./static/videos/finalVideo.avi'):
     #     os.remove('static/videos/finalVideo.avi')
