@@ -118,11 +118,11 @@ function motionTracking()
             % Train model
             step(videoObj.detector, singleFrame);
             
-            %Insert Text
-            position = [10,10];
-            box_color = 'black';
-            calImage = insertText(singleFrame,position,'Calibrating...',...
-                'FontSize',18,'BoxColor', box_color,'TextColor','white');
+            % Insert Text
+            % position = [10,10];
+            % box_color = 'black';
+            % calImage = insertText(singleFrame,position,'Calibrating...',...
+            %    'FontSize',18,'BoxColor', box_color,'TextColor','white');
             
             % Output video with calibrating text in top left corner
             % imshow(calImage);
