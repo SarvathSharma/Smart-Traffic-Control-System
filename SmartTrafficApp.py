@@ -7,11 +7,16 @@ from os import path
 from os.path import join
 from flask import Flask, render_template, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
+import redis
+from rq import Queue
 
 ALLOWED_EXTENSIONS = {'mp4', 'MP4'}
 
 app = Flask(__name__)
 app.secret_key = 'oursecretkey'
+
+r = redis.Redis()
+q = Queue(connection=r)
 
 APP_ROOT = path.dirname(path.abspath(__file__))
 UPLOAD_FOLDER = join(APP_ROOT, 'static', 'uploads')
@@ -112,7 +117,8 @@ def home():
             print('creating file')
             savePath = join(UPLOAD_FOLDER, "traffic-test." + allowedExtension)
             file.save(savePath)
-            res = run_matlab()
+            job = q.enqueue(run_matlab)
+            res = jobs.result
             get_data(res)
         else:
             extensionError = True
