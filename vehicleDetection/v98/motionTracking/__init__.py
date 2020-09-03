@@ -1,4 +1,4 @@
-# Copyright 2015-2020 MathWorks, Inc.
+# Copyright 2015-2019 MathWorks, Inc.
 
 # This template is used to generate an __init__.py file for a particular deployable package.
 
@@ -18,9 +18,9 @@ import weakref
 
 class _PathInitializer(object):
     PLATFORM_DICT = {'Windows': ['PATH','dll',''], 'Linux': ['LD_LIBRARY_PATH','so','libmw'], 'Darwin': ['DYLD_LIBRARY_PATH','dylib','libmw']}
-    SUPPORTED_PYTHON_VERSIONS = ['2_7', '3_6', '3_7', '3_8']
-    RUNTIME_VERSION_W_DOTS = '9.9'
-    RUNTIME_VERSION_W_UNDERSCORES = '9_9'
+    SUPPORTED_PYTHON_VERSIONS = ['2_7', '3_6', '3_7']
+    RUNTIME_VERSION_W_DOTS = '9.8'
+    RUNTIME_VERSION_W_UNDERSCORES = '9_8'
     PACKAGE_NAME = 'motionTracking'
     
     def set_interpreter_version(self):    
