@@ -14,9 +14,6 @@ ALLOWED_EXTENSIONS = {'mp4', 'MP4'}
 app = Flask(__name__)
 app.secret_key = 'oursecretkey'
 
-r = redis.Redis()
-q = Queue(connection=r)
-
 APP_ROOT = path.dirname(path.abspath(__file__))
 UPLOAD_FOLDER = join(APP_ROOT, 'static', 'uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
