@@ -9,27 +9,7 @@
         We can help you monitor the peaks and troughs of your traffic throughout
         the day!
       </h5>
-      <p class="description">
-        Upload a video and see the resulting traffic monitoring!
-      </p>
-      <form id="upload-form" method="POST" enctype="multipart/form-data">
-        <div class="upload-description">
-          <input name="file" type="file" />
-        </div>
-        <div class="upload-button">
-          <input class="btn btn-primary mb-2" type="submit"/>
-        </div>
-      </form>
-    {% if error %}
-      <p id='error-text' class="error">
-        Video size is too small, please upload a larger video to analyze!
-      </p>
-    {% endif %}
-    {% if extensionError %}
-      <p id='extension-error-text' class="error">
-        Sorry, we only accept .mp4 format files, please upload your video in a different format!
-      </p>
-    {% endif %}
+      <button id='select-button' />
       <div id='loading-animation'>
         <div class="spinner" >
           <div class="rect1"></div>
@@ -50,7 +30,19 @@
     <video controls="" autoplay="" width=100% name="media">
       <source src="{{ url_for('static', filename='videos/finalVideo.mp4') }}" type="video/avi">
     </video>
-    <canvas id="myChart" data="{{ data }}" ></canvas>
+    <canvas id="myChart" data="{{ data[0] }}" ></canvas>
+  </div>
+  <div id="graph">
+    <video controls="" autoplay="" width=100% name="media">
+      <source src="{{ url_for('static', filename='videos/finalVideo2.mp4') }}" type="video/avi">
+    </video>
+    <canvas id="myChart" data="{{ data[1] }}" ></canvas>
+  </div>
+  <div id="graph">
+    <video controls="" autoplay="" width=100% name="media">
+      <source src="{{ url_for('static', filename='videos/finalVideo3.mp4') }}" type="video/avi">
+    </video>
+    <canvas id="myChart" data="{{ data[2] }}" ></canvas>
   </div>
     {% endif %}
 </div>
