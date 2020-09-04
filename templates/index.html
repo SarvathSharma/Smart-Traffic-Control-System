@@ -28,21 +28,21 @@
     {% if data %}
   <div id="graph">
     <video controls="" autoplay="" width=100% name="media">
-      <source src="{{ url_for('static', filename='videos/finalVideo.mp4') }}" type="video/avi">
+      <source src="{{ url_for('static', filename='videos/finalVideo1.mp4') }}" type="video/mp4">
     </video>
     <canvas id="myChart" data="{{ data[0] }}" ></canvas>
   </div>
   <div id="graph">
     <video controls="" autoplay="" width=100% name="media">
-      <source src="{{ url_for('static', filename='videos/finalVideo2.mp4') }}" type="video/avi">
+      <source src="{{ url_for('static', filename='videos/finalVideo2.mp4') }}" type="video/mp4">
     </video>
-    <canvas id="myChart" data="{{ data[1] }}" ></canvas>
+    <canvas id="myChart2" data="{{ data[1] }}" ></canvas>
   </div>
   <div id="graph">
     <video controls="" autoplay="" width=100% name="media">
-      <source src="{{ url_for('static', filename='videos/finalVideo3.mp4') }}" type="video/avi">
+      <source src="{{ url_for('static', filename='videos/finalVideo3.mp4') }}" type="video/mp4">
     </video>
-    <canvas id="myChart" data="{{ data[2] }}" ></canvas>
+    <canvas id="myChart3" data="{{ data[2] }}" ></canvas>
   </div>
     {% endif %}
 </div>
