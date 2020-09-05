@@ -9,60 +9,84 @@
     </div>
     <p id="help-text">Click on a button and scroll down to view the videos and graphs!</p>
     <div class='btn-wrapper'>
-      <button type="button" id="graph1-button" class="btn btn-outline-success">
+      <button type="button" id="graph1-button" class="btn btn-success">
         Data1
       </button>
-      <button type="button" id="graph2-button" class="btn btn-outline-warning">
+      <button type="button" id="graph2-button" class="btn btn-warning">
         Data2
       </button>
-      <button type="button" id="graph3-button" class="btn btn-outline-primary">
+      <button type="button" id="graph3-button" class="btn btn-primary">
         Data3
       </button>
     </div>
   </div>
   <div id="graph1">
-    <video controls="" width="100%" name="media">
-      <source
-        src="{{ url_for('static', filename='videos/originalVideo1.mp4') }}"
-        type="video/mp4"
-      />
-    </video>
-    <video controls="" width="100%" name="media">
-      <source
-        src="{{ url_for('static', filename='videos/finalVideo1.mp4') }}"
-        type="video/mp4"
-      />
-    </video>
+    <div class="two-column-images">
+      <div class="image1">
+        <h4>Original Video Footage:</h4>
+        <video controls="" width="100%" name="media">
+          <source
+            src="{{ url_for('static', filename='videos/originalVideo1.mp4') }}"
+            type="video/mp4"
+          />  
+        </video>
+      </div>
+      <div class="image2">
+        <h4>Processed Video Footage:</h4>
+        <video controls="" width="100%" name="media">
+          <source
+            src="{{ url_for('static', filename='videos/finalVideo1.mp4') }}"
+            type="video/mp4"
+          />
+        </video>
+      </div>
+    </div>
     <canvas id="myChart" data="{{ data[0] }}"></canvas>
   </div>
   <div id="graph2">
-    <video controls="" width="100%" name="media">
-      <source
-        src="{{ url_for('static', filename='videos/originalVideo2.mp4') }}"
-        type="video/mp4"
-      />
-    </video>
-    <video controls="" width="100%" name="media">
-      <source
-        src="{{ url_for('static', filename='videos/finalVideo2.mp4') }}"
-        type="video/mp4"
-      />
-    </video>
+    <div class="two-column-images">
+      <div class="image1">
+        <h4>Original Video Footage:</h4>
+        <video controls="" width="100%" name="media">
+          <source
+            src="{{ url_for('static', filename='videos/originalVideo2.mp4') }}"
+            type="video/mp4"
+          />
+        </video>
+      </div>
+      <div class="image2">
+        <h4>Processed Video Footage:</h4>
+        <video controls="" width="100%" name="media">
+          <source
+            src="{{ url_for('static', filename='videos/finalVideo2.mp4') }}"
+            type="video/mp4"
+          />
+        </video>
+      </div>
+    </div>
     <canvas id="myChart2" data="{{ data[1] }}"></canvas>
   </div>
-  <div id="graph3">
-    <video controls="" width="100%" name="media">
-      <source
-        src="{{ url_for('static', filename='videos/originalVideo3.mp4') }}"
-        type="video/mp4"
-      />
-    </video>
-    <video controls="" width="100%" name="media">
-      <source
-        src="{{ url_for('static', filename='videos/finalVideo3.mp4') }}"
-        type="video/mp4"
-      />
-    </video>
+  <div id="graph3"> 
+    <div class="two-column-images">
+      <div class="image1">
+        <h4>Original Video Footage:</h4>
+        <video controls="" width="100%" name="media">
+          <source
+            src="{{ url_for('static', filename='videos/originalVideo3.mp4') }}"
+            type="video/mp4"
+          />
+        </video>
+      </div>
+      <div class="image2">
+        <h4>Processed Video Footage:</h4>
+        <video controls="" width="100%" name="media">
+          <source
+            src="{{ url_for('static', filename='videos/finalVideo3.mp4') }}"
+            type="video/mp4"
+          />
+        </video>
+      </div>
+    </div>
     <canvas id="myChart3" data="{{ data[2] }}"></canvas>
   </div>
 </div>
