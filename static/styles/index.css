@@ -29,6 +29,7 @@
 
 .btn-wrapper{
   padding-left: 64px;
+  margin-top: 16px;
 }
 
 .two-column-images{
@@ -67,6 +68,12 @@
     height: auto;
     padding: 0px 32px;
   }
+
+  .btn-wrapper{
+    padding-right: auto;
+    padding-left: auto;
+    margin-top: 16px;
+  }
 }
 
 .image1 h4 {
@@ -81,6 +88,8 @@
   margin-top: 64px;
   padding-left: 64px;
   max-width: 90%;
+  text-align: center;
+  margin-bottom: 32px;
 }
 
 #graph1-button{
