@@ -21,4 +21,8 @@ We are on the verge of creating a Smart Traffic Control System. By using Image P
 We will be using .mp4 file format with 60fps video quality.
 
 # Extra Info:
-To watch the actual MATLAB script run make sure you have MATLAB installed and download the GitHub repo. In the motionTracking.m file, you will need to un-comment the lines in the setupSystem() function. Specifically the VideoPlayer lines
+To watch the actual MATLAB script run make sure you have MATLAB installed and download the GitHub repo. In the motionTracking.m file edit the path of where the video is. The line to change is line 138:
+
+file = fullfile('..', 'static', 'uploads', 'traffic-test.mp4');
+
+Change it such that the path is valid (currently is '../static/uploads/traffic-test.mp4')
