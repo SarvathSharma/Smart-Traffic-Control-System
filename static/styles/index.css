@@ -27,20 +27,29 @@
   margin-bottom: 16px;
 }
 
+.btn-wrapper{
+  padding-left: 64px;
+}
+
+#help-text{
+  margin-top: 64px;
+  padding-left: 64px;
+}
+
 #graph1 {
   margin: 64px auto;
-  display: block;
+  display: none;
   width: 90%;
 }
 
 #graph2 {
   margin: 64px auto;
-  display: block;
+  display: none;
   width: 90%;
 }
 
 #graph3 {
   margin: 64px auto;
-  display: block;
+  display: none;
   width: 90%;
 }
