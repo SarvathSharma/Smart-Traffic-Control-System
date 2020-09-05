@@ -135,7 +135,7 @@ function motionTracking()
         % Constructor function that initializes a new object to analyze
     
         % Video Reader method
-        file = fullfile('..', 'static', 'uploads', 'traffic-test.mp4');
+        file = fullfile('..', 'displayVideos', 'originalVideos', 'originalVideo1.mp4');
         videoObj.reader = VideoReader(file);
 
         % We are using 2 video player methods, one for the dislaying and one 
@@ -144,7 +144,7 @@ function motionTracking()
         % videoObj.videoPlayer = vision.VideoPlayer('Position', [20, 400, 700, 400]);
         
         % Generate the video writer object
-        videoObj.finalVideo = VideoWriter('finalVideo.avi', 'Motion JPEG AVI');
+        videoObj.finalVideo = VideoWriter('finalVideo.mp4', 'MPEG-4');
         videoObj.finalVideo.FrameRate = videoObj.reader.FrameRate;
         
         % Now we need to just add the methods for the Foreground Detector and

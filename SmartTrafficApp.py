@@ -24,7 +24,8 @@ def get_data(fileName):
 @app.route('/home', methods=['GET'])
 def home():
     # Get Data
-    graphData[0] = get_data('finalData.csv')
+    graphData = [[], [], []]
+    graphData[0] = get_data('finalData1.csv')
     graphData[1] = get_data('finalData2.csv')
     graphData[2] = get_data('finalData3.csv')
     return render_template('index.html', data=graphData)
