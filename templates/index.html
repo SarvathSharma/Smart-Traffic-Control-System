@@ -9,10 +9,10 @@
     </div>
     <p id="help-text">Click on a button and scroll down to view the videos and graphs!</p>
     <div class='btn-wrapper'>
-      <button type="button" id="graph1-button" class="btn btn-outline-danger">
+      <button type="button" id="graph1-button" class="btn btn-outline-success">
         Data1
       </button>
-      <button type="button" id="graph2-button" class="btn btn-outline-success">
+      <button type="button" id="graph2-button" class="btn btn-outline-warning">
         Data2
       </button>
       <button type="button" id="graph3-button" class="btn btn-outline-primary">
@@ -21,13 +21,13 @@
     </div>
   </div>
   <div id="graph1">
-    <video controls="" autoplay="" width="100%" name="media">
+    <video controls="" width="100%" name="media">
       <source
         src="{{ url_for('static', filename='videos/originalVideo1.mp4') }}"
         type="video/mp4"
       />
     </video>
-    <video controls="" autoplay="" width="100%" name="media">
+    <video controls="" width="100%" name="media">
       <source
         src="{{ url_for('static', filename='videos/finalVideo1.mp4') }}"
         type="video/mp4"
@@ -42,7 +42,7 @@
         type="video/mp4"
       />
     </video>
-    <video controls="" autoplay="" width="100%" name="media">
+    <video controls="" width="100%" name="media">
       <source
         src="{{ url_for('static', filename='videos/finalVideo2.mp4') }}"
         type="video/mp4"

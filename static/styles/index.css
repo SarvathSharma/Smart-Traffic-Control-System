@@ -34,6 +34,16 @@
 #help-text{
   margin-top: 64px;
   padding-left: 64px;
+  max-width: 90%;
+}
+
+#graph1-button{
+  margin-right: 24px;
+}
+
+#graph2-button{
+  margin-right: 24px;
+  
 }
 
 #graph1 {
