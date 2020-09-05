@@ -1,15 +1,29 @@
-var loadingAnimation = document.getElementById('loading-animation');
-var graph = document.getElementById('graph');
-var routingLinks = document.getElementById('routing-links');
+let btn1 = document.getElementById('graph1-button');
+let btn2 = document.getElementById('graph2-button');
+let btn3 = document.getElementById('graph3-button');
 
-document.getElementById('select-button').addEventListener('click', (e) => {
-  routingLinks.style.pointerEvents = 'none';
-  loadingAnimation.style.display = 'block';
-  graph.style.display = 'none';
-  setTimeout(() => { 
-    alert("Hello"); 
-  }, 2000);
-  loadingAnimation.style.display = 'none';
-  routingLinks.style.pointerEvents = 'block';
-  graph.style.display = 'block';
+let graph1 = document.getElementById('graph');
+let graph2 = document.getElementById('graph');
+let graph3 = document.getElementById('graph');
+
+
+btn1.addEventListener('click', (e) => {
+  graph2.style.display = 'none';
+  graph3.style.display = 'none';
+  graph1.style.display = 'block';
+ 
+});
+
+btn2.addEventListener('click', (e) => {
+  graph3.style.display = 'none';
+  graph1.style.display = 'none';
+  graph2.style.display = 'block';
+
+});
+
+btn3.addEventListener('click', (e) => {
+  graph1.style.display = 'none';
+  graph2.style.display = 'none';
+  graph3.style.display = 'block';
+
 });

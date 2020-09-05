@@ -2,48 +2,53 @@
 <div>
   <div class="homepage-card">
     <div class="heading-text-index">
-      <h1>
-        Tired of slow traffic?
-      </h1>
+      <h1>Tired of slow traffic?</h1>
       <h5>
         We can help you monitor the peaks and troughs of your traffic throughout
         the day!
       </h5>
-      <button id='select-button' />
-      <div id='loading-animation'>
-        <div class="spinner" >
-          <div class="rect1"></div>
-          <div class="rect2"></div>
-          <div class="rect3"></div>
-          <div class="rect4"></div>
-          <div class="rect5"></div>
-        </div>
-        <small>This will take a few minutes depending on the size of the video</small>
-      </div>
-    {% if data %}
-      <p id='help-text'>Scroll down to view the graph!</p>
-    {% endif %}
+      <button type="button" id="graph1-button" class="btn btn-outline-danger">
+        Graph1
+      </button>
+      <button type="button" id="graph2-button" class="btn btn-outline-success">
+        Graph2
+      </button>
+      <button type="button" id="graph3-button" class="btn btn-outline-primary">
+        Graph3
+      </button>
+      {% if data %}
+      <p id="help-text">Scroll down to view the graph!</p>
+      {% endif %}
+    </div>
   </div>
-  </div>
-    {% if data %}
-  <div id="graph">
-    <video controls="" autoplay="" width=100% name="media">
-      <source src="{{ url_for('static', filename='videos/finalVideo.mp4') }}" type="video/avi">
+  {% if data %}
+  <div id="graph1">
+    <video controls="" autoplay="" width="100%" name="media">
+      <source
+        src="{{ url_for('static', filename='videos/finalVideo.mp4') }}"
+        type="video/avi"
+      />
     </video>
-    <canvas id="myChart" data="{{ data[0] }}" ></canvas>
+    <canvas id="myChart" data="{{ data[0] }}"></canvas>
   </div>
-  <div id="graph">
-    <video controls="" autoplay="" width=100% name="media">
-      <source src="{{ url_for('static', filename='videos/finalVideo2.mp4') }}" type="video/avi">
+  <div id="graph2">
+    <video controls="" autoplay="" width="100%" name="media">
+      <source
+        src="{{ url_for('static', filename='videos/finalVideo2.mp4') }}"
+        type="video/avi"
+      />
     </video>
-    <canvas id="myChart" data="{{ data[1] }}" ></canvas>
+    <canvas id="myChart2" data="{{ data[1] }}"></canvas>
   </div>
-  <div id="graph">
-    <video controls="" autoplay="" width=100% name="media">
-      <source src="{{ url_for('static', filename='videos/finalVideo3.mp4') }}" type="video/avi">
+  <div id="graph3">
+    <video controls="" autoplay="" width="100%" name="media">
+      <source
+        src="{{ url_for('static', filename='videos/finalVideo3.mp4') }}"
+        type="video/avi"
+      />
     </video>
-    <canvas id="myChart" data="{{ data[2] }}" ></canvas>
+    <canvas id="myChart3" data="{{ data[2] }}"></canvas>
   </div>
-    {% endif %}
+  {% endif %}
 </div>
 {% endblock content %}
